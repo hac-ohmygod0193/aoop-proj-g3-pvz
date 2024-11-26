@@ -7,6 +7,8 @@ from core.grid import Grid
 from core.plant_manager import PlantManager
 from models.plant import PlantType
 
+from core.card_manager import CardManager
+
 class Game:
     def __init__(self):
         pygame.init()
@@ -24,7 +26,8 @@ class Game:
         """初始化遊戲物件"""
         self.grid = Grid(self.screen)
         self.plant_manager = PlantManager()
-        self.selected_plant_type = PlantType.SUNFLOWER # Default selected plant type
+        self.card_manager = CardManager()
+        self.selected_plant_type = None
 
     def run(self) -> None:
         """遊戲主循環"""
@@ -44,22 +47,34 @@ class Game:
 
     def _handle_mouse_click(self, pos: tuple[int, int]) -> None:
         """處理滑鼠點擊事件"""
-        cell = self.grid.get_cell_from_pos(pos)
-        if cell:
-            print(f"點擊的網格座標：{cell}")  # 用於測試
-            row, col = cell
-            self.plant_manager.add_plant(row, col, self.selected_plant_type)
+        # 檢查是否點擊卡片
+        plant_type = self.card_manager.handle_click(pos)
+        if plant_type:
+            self.selected_plant_type = plant_type
+            return
+
+        # 如果已選擇植物，嘗試放置
+        if self.selected_plant_type:
+            cell = self.grid.get_cell_from_pos(pos)
+            if cell:
+                row, col = cell
+                if self.plant_manager.add_plant(row, col, self.selected_plant_type):
+                    current_time = pygame.time.get_ticks()
+                    self.card_manager.use_card(self.selected_plant_type, current_time)
+                    self.selected_plant_type = None
 
     def _update(self) -> None:
         """更新遊戲狀態"""
         current_time = pygame.time.get_ticks()
         self.plant_manager.update(current_time)
+        self.card_manager.update(current_time)
 
     def _render(self) -> None:
         """渲染遊戲畫面"""
         self.screen.fill(Colors.WHITE)
         self.grid.draw()
         self.plant_manager.draw(self.screen, self.grid.start_x, self.grid.start_y)
+        self.card_manager.draw(self.screen)
         pygame.display.flip()
 
     def _maintain_frame_rate(self) -> None:
