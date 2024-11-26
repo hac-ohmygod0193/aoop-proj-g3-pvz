@@ -12,6 +12,9 @@ class GridSettings:
     CELL_HEIGHT = 80
     COLOR = (150, 150, 150)
     LINE_WIDTH = 2
+    gameSettings = GameSettings()
+    GRID_START_X = (gameSettings.WINDOW_WIDTH - (COLS * CELL_WIDTH)) // 2
+    GRID_START_Y = (gameSettings.WINDOW_HEIGHT - (ROWS * CELL_HEIGHT)) // 2
 
 class Colors:
     WHITE = (255, 255, 255)

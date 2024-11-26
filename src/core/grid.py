@@ -12,8 +12,8 @@ class Grid:
         window_width = self.surface.get_width()
         window_height = self.surface.get_height()
         
-        self.start_x = (window_width - (GridSettings.CELL_WIDTH * GridSettings.COLS)) // 2
-        self.start_y = (window_height - (GridSettings.CELL_HEIGHT * GridSettings.ROWS)) // 2
+        self.start_x = GridSettings.GRID_START_X
+        self.start_y = GridSettings.GRID_START_Y
 
     def draw(self) -> None:
         """繪製網格"""

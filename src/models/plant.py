@@ -66,11 +66,21 @@ class Sunflower(Plant):
     """向日葵類"""
     def __init__(self, row: int, col: int):
         super().__init__(row, col, PlantType.SUNFLOWER)
-
+        self.sun_production_time = 500
+        
     def update(self, current_time: int) -> None:
         """產生陽光"""
         super().update(current_time)
-        # TODO: 實現陽光產生邏輯
+        if current_time - self.last_attack_time >= self.sun_production_time:
+            # 計算陽光生成位置
+            x = self.col * GridSettings.CELL_WIDTH + GridSettings.GRID_START_X
+            y = self.row * GridSettings.CELL_HEIGHT + GridSettings.GRID_START_Y
+            # 發出產生陽光的信號（這部分需要通過事件系統實現）
+            # pygame.event.post(pygame.event.Event(
+            #     pygame.USEREVENT, 
+            #     {'type': 'PRODUCE_SUN', 'position': (x, y)}
+            # ))
+            self.last_attack_time = current_time
 
 class Peashooter(Plant):
     """豌豆射手類"""

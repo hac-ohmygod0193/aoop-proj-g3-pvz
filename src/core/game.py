@@ -6,8 +6,8 @@ from core.grid import Grid
 
 from core.plant_manager import PlantManager
 from models.plant import PlantType
-
 from core.card_manager import CardManager
+from core.sun_manager import SunManager
 
 class Game:
     def __init__(self):
@@ -27,6 +27,7 @@ class Game:
         self.grid = Grid(self.screen)
         self.plant_manager = PlantManager()
         self.card_manager = CardManager()
+        self.sun_manager = SunManager()
         self.selected_plant_type = None
 
     def run(self) -> None:
@@ -47,6 +48,8 @@ class Game:
 
     def _handle_mouse_click(self, pos: tuple[int, int]) -> None:
         """處理滑鼠點擊事件"""
+        
+        self.sun_manager.handle_click(pos)
         # 檢查是否點擊卡片
         plant_type = self.card_manager.handle_click(pos)
         if plant_type:
@@ -68,13 +71,15 @@ class Game:
         current_time = pygame.time.get_ticks()
         self.plant_manager.update(current_time)
         self.card_manager.update(current_time)
-
+        self.sun_manager.update(current_time)
+        
     def _render(self) -> None:
         """渲染遊戲畫面"""
         self.screen.fill(Colors.WHITE)
         self.grid.draw()
         self.plant_manager.draw(self.screen, self.grid.start_x, self.grid.start_y)
         self.card_manager.draw(self.screen)
+        self.sun_manager.draw(self.screen)
         pygame.display.flip()
 
     def _maintain_frame_rate(self) -> None:
