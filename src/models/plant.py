@@ -61,6 +61,16 @@ class Plant:
         x = grid_start_x + self.col * GridSettings.CELL_WIDTH + 5
         y = grid_start_y + self.row * GridSettings.CELL_HEIGHT + 5
         surface.blit(self.image, (x, y))
+        
+    def take_damage(self, damage: int) -> None:
+        """受到傷害"""
+        self.health -= damage
+        # if self.health <= 0:
+            # 發出植物死亡信號
+            # pygame.event.post(pygame.event.Event(
+            #     pygame.USEREVENT, 
+            #     {'type': 'PLANT_DIED', 'position': (self.row, self.col)}
+            # ))
 
 class Sunflower(Plant):
     """向日葵類"""

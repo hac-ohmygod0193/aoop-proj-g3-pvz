@@ -8,6 +8,7 @@ from core.plant_manager import PlantManager
 from models.plant import PlantType
 from core.card_manager import CardManager
 from core.sun_manager import SunManager
+from core.zombie_manager import ZombieManager
 
 class Game:
     def __init__(self):
@@ -28,6 +29,7 @@ class Game:
         self.plant_manager = PlantManager()
         self.card_manager = CardManager()
         self.sun_manager = SunManager()
+        self.zombie_manager = ZombieManager()
         self.selected_plant_type = None
 
     def run(self) -> None:
@@ -72,7 +74,14 @@ class Game:
         self.plant_manager.update(current_time)
         self.card_manager.update(current_time)
         self.sun_manager.update(current_time)
+        self.zombie_manager.update(current_time)
+        # 檢查碰撞
+        self.zombie_manager.check_collisions(self.plant_manager.plants)
         
+        # 檢查波次完成
+        if self.zombie_manager.wave_complete:
+            self.zombie_manager.start_new_wave()
+            
     def _render(self) -> None:
         """渲染遊戲畫面"""
         self.screen.fill(Colors.WHITE)
@@ -80,6 +89,7 @@ class Game:
         self.plant_manager.draw(self.screen, self.grid.start_x, self.grid.start_y)
         self.card_manager.draw(self.screen)
         self.sun_manager.draw(self.screen)
+        self.zombie_manager.draw(self.screen)
         pygame.display.flip()
 
     def _maintain_frame_rate(self) -> None:
