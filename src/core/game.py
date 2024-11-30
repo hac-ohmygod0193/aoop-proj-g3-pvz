@@ -31,7 +31,7 @@ class Game:
         self.sun_manager = SunManager()
         self.zombie_manager = ZombieManager()
         self.selected_plant_type = None
-
+        self.selected_card = None
     def run(self) -> None:
         """遊戲主循環"""
         while self.is_running:
@@ -51,23 +51,30 @@ class Game:
     def _handle_mouse_click(self, pos: tuple[int, int]) -> None:
         """處理滑鼠點擊事件"""
         
-        self.sun_manager.handle_click(pos)
+        if(self.sun_manager.handle_click(pos)):
+            return
         # 檢查是否點擊卡片
-        plant_type = self.card_manager.handle_click(pos)
+        card = self.card_manager.handle_click(pos) # type: PlantCard
+        plant_type = card.info.plant_type if card else None
         if plant_type:
             self.selected_plant_type = plant_type
+            self.selected_card = card
             return
 
         # 如果已選擇植物，嘗試放置
-        if self.selected_plant_type:
+        if self.selected_plant_type and self.sun_manager.can_afford(self.selected_card.info.cost):
+            print("selected_plant_type", self.selected_plant_type)
+            print(self.selected_card.info.cost)
             cell = self.grid.get_cell_from_pos(pos)
             if cell:
                 row, col = cell
                 if self.plant_manager.add_plant(row, col, self.selected_plant_type):
                     current_time = pygame.time.get_ticks()
                     self.card_manager.use_card(self.selected_plant_type, current_time)
+                    self.sun_manager.spend_sun(self.selected_card.info.cost) # 扣除陽光
                     self.selected_plant_type = None
-
+        elif self.selected_plant_type:
+            print("Not enough sun")
     def _update(self) -> None:
         """更新遊戲狀態"""
         current_time = pygame.time.get_ticks()
