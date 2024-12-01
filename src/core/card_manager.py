@@ -45,14 +45,14 @@ class CardManager:
                 # 設置新的選擇
                 card.is_selected = True
                 self.selected_card = card
-                return card.info.plant_type
+                return card
         
         return None
 
     def use_card(self, plant_type: PlantType, current_time: int) -> None:
         """使用卡片"""
         for card in self.cards:
-            if card.info.plant_type == plant_type:
+            if card.info.plant_type == plant_type and not card.is_cooling_down and card.is_selected:
                 card.use(current_time)
                 card.is_selected = False
                 self.selected_card = None

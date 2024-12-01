@@ -1,6 +1,7 @@
 """網格系統"""
 import pygame
 from config.settings import GridSettings
+from typing import Optional, Tuple
 
 class Grid:
     def __init__(self, surface: pygame.Surface):
@@ -35,8 +36,7 @@ class Grid:
             end_pos = (self.start_x + col * GridSettings.CELL_WIDTH,
                       self.start_y + GridSettings.ROWS * GridSettings.CELL_HEIGHT)
             pygame.draw.line(self.surface, GridSettings.COLOR, start_pos, end_pos, GridSettings.LINE_WIDTH)
-
-    def get_cell_from_pos(self, mouse_pos: tuple[int, int]) -> tuple[int, int] | None:
+    def get_cell_from_pos(self, mouse_pos: Tuple[int, int]) -> Optional[Tuple[int, int]]:
         """根據滑鼠位置獲取網格座標"""
         x, y = mouse_pos
         
