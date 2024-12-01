@@ -59,7 +59,7 @@ class Zombie:
 
     def _load_image(self) -> None:
         """加載殭屍圖片"""
-        self.image = pygame.Surface((60, 80))
+        self.image = pygame.Surface((30, 40))
         color = (100, 100, 100)  # 暫時用灰色表示不同殭屍
         if self.type == ZombieType.CONE_HEAD:
             color = (139, 69, 19)  # 褐色

@@ -62,25 +62,21 @@ class ZombieManager:
         """檢查與植物的碰撞"""
         current_time = pygame.time.get_ticks()
         for zombie in self.zombies:
-            zombie_rect = zombie.get_rect()
-            for pos, plant in plants.items():
-                if plant.row == zombie.row:
-                    plant_x = (GridSettings.GRID_START_X + 
-                             plant.col * GridSettings.CELL_WIDTH)
-                    plant_rect = pygame.Rect(
-                        plant_x, 
-                        GridSettings.GRID_START_Y + plant.row * GridSettings.CELL_HEIGHT,
-                        GridSettings.CELL_WIDTH,
-                        GridSettings.CELL_HEIGHT
-                    )
-                    
-                    if zombie_rect.colliderect(plant_rect):
-                        zombie.is_eating = True
-                        damage = zombie.attack(current_time)
-                        if damage > 0:
-                            plant.take_damage(damage)
-                    else:
-                        zombie.is_eating = False
+            # 獲取殭屍當前所在的格子
+            zombie_col = (zombie.x - GridSettings.GRID_START_X) // GridSettings.CELL_WIDTH
+            
+            # 檢查這個格子是否有植物
+            plant = plants.get((zombie.row, zombie_col))
+            
+            if plant:
+                # 如果有植物，停下來攻擊
+                zombie.is_eating = True
+                damage = zombie.attack(current_time)
+                if damage > 0:
+                    plant.take_damage(damage)
+            else:
+                # 如果沒有植物，繼續移動
+                zombie.is_eating = False
 
     def draw(self, surface: pygame.Surface) -> None:
         """繪製所有殭屍"""
