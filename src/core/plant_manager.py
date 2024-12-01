@@ -45,8 +45,3 @@ class PlantManager:
         """移除植物"""
         if (row, col) in self.plants:
             del self.plants[(row, col)]
-            # 發送植物移除事件
-            pygame.event.post(pygame.event.Event(
-                pygame.USEREVENT,
-                {'action': 'PLANT_REMOVED', 'row': row, 'col': col}
-            ))

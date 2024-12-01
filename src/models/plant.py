@@ -65,12 +65,16 @@ class Plant:
     def take_damage(self, damage: int) -> None:
         """受到傷害"""
         self.health -= damage
-        # if self.health <= 0:
-            # 發出植物死亡信號
-            # pygame.event.post(pygame.event.Event(
-            #     pygame.USEREVENT, 
-            #     {'type': 'PLANT_DIED', 'position': (self.row, self.col)}
-            # ))
+        if self.health <= 0:
+            # 發出植物死亡事件
+            pygame.event.post(pygame.event.Event(
+                pygame.USEREVENT,
+                {
+                    'action': 'PLANT_DIED',
+                    'row': self.row,
+                    'col': self.col
+                }
+            ))
 
 class Sunflower(Plant):
     """向日葵類"""

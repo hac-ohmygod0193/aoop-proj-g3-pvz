@@ -61,6 +61,8 @@ class Game:
                         damage=event.dict['damage']
                     )
                     self.projectiles.append(new_pea)
+                elif event.action == 'PLANT_DIED':
+                    self.plant_manager.remove_plant(event.dict['row'], event.dict['col'])
 
     def _handle_mouse_click(self, pos: tuple[int, int]) -> None:
         """處理滑鼠點擊事件"""
