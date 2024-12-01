@@ -40,10 +40,6 @@ class PlantManager:
         """繪製所有植物"""
         for plant in self.plants.values():
             plant.draw(surface, grid_start_x, grid_start_y)
-
-    def shoot_pea(self, row: int, x: int, y: int, damage: int) -> None:
-        """發射豌豆"""
-        self.plants[(row, col)].attack()
         
     def remove_plant(self, row: int, col: int) -> None:
         """移除植物"""

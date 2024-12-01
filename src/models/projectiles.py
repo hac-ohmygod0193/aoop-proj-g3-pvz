@@ -10,7 +10,7 @@ class Pea:
         self.row = row
         self.damage = damage
         self.speed = 5  # 豌豆移動速度
-        self.radius = 5  # 豌豆半徑
+        self.radius = 10  # 豌豆半徑
         self.active = True
         
     def update(self) -> None:
@@ -22,7 +22,7 @@ class Pea:
             
     def draw(self, surface: pygame.Surface) -> None:
         """繪製豌豆"""
-        pygame.draw.circle(surface, (0, 255, 0), (int(self.x), int(self.y)), self.radius)
+        pygame.draw.circle(surface, (50, 200, 0), (int(self.x), int(self.y)), self.radius)
         
     def get_rect(self) -> pygame.Rect:
         """獲取豌豆的碰撞矩形"""

@@ -89,6 +89,7 @@ class Game:
                     self.selected_plant_type = None
         elif self.selected_plant_type:
             print("Not enough sun")
+
     def _update(self) -> None:
         """更新遊戲狀態"""
         current_time = pygame.time.get_ticks()

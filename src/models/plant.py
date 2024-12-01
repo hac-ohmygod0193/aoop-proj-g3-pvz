@@ -77,7 +77,8 @@ class Sunflower(Plant):
     def __init__(self, row: int, col: int):
         super().__init__(row, col, PlantType.SUNFLOWER)
         self.sun_production_time = 5000
-        
+        self.last_attack_time = 0
+
     def update(self, current_time: int) -> None:
         """產生陽光"""
         super().update(current_time)
@@ -92,11 +93,18 @@ class Sunflower(Plant):
             ))
             self.last_attack_time = current_time
 
+    def _load_image(self) -> None:
+        """加載植物圖片"""
+        self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
+        self.image.fill((255, 150, 0))
+
 class Peashooter(Plant):
     """豌豆射手類"""
     def __init__(self, row: int, col: int):
         super().__init__(row, col, PlantType.PEASHOOTER)
         self.attack_interval = 3000
+        self.last_attack_time = 0
+
     def update(self, current_time: int) -> None:
         """更新豌豆射手狀態"""
         super().update(current_time)
@@ -107,7 +115,7 @@ class Peashooter(Plant):
     def attack(self) -> None:
         """發射豌豆"""
         # 計算豌豆發射的起始位置
-        x = self.col * GridSettings.CELL_WIDTH + GridSettings.GRID_START_X
+        x = self.col * GridSettings.CELL_WIDTH + GridSettings.GRID_START_X + GridSettings.CELL_WIDTH // 3
         y = self.row * GridSettings.CELL_HEIGHT + GridSettings.GRID_START_Y + GridSettings.CELL_HEIGHT // 2
         
         # 發送發射豌豆的事件
