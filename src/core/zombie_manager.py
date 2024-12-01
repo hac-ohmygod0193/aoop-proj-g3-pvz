@@ -74,6 +74,17 @@ class ZombieManager:
                 damage = zombie.attack(current_time)
                 if damage > 0:
                     plant.take_damage(damage)
+                    # 發送植物受傷事件
+                    pygame.event.post(pygame.event.Event(
+                        pygame.USEREVENT,
+                        {
+                            'action': 'SHOW_DAMAGE',
+                            'damage': damage,
+                            'x': plant.col * GridSettings.CELL_WIDTH + GridSettings.GRID_START_X + 20,
+                            'y': plant.row * GridSettings.CELL_HEIGHT + GridSettings.GRID_START_Y,
+                            'is_plant_damage': True
+                        }
+                    ))
             else:
                 # 如果沒有植物，繼續移動
                 zombie.is_eating = False

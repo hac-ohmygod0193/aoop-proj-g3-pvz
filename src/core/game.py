@@ -1,7 +1,7 @@
 """遊戲主類"""
 import pygame
 import sys
-from config.settings import GameSettings, Colors
+from config.settings import GameSettings, Colors, GridSettings
 from core.grid import Grid
 from core.plant_manager import PlantManager
 from core.card_manager import CardManager
@@ -9,6 +9,7 @@ from core.sun_manager import SunManager
 from core.zombie_manager import ZombieManager
 from models.plant import PlantType
 from models.projectiles import Pea
+from core.effect_manager import EffectManager
 
 class Game:
     def __init__(self):
@@ -31,8 +32,10 @@ class Game:
         self.card_manager = CardManager()
         self.sun_manager = SunManager()
         self.zombie_manager = ZombieManager()
+        self.effect_manager = EffectManager()
         self.selected_plant_type = None
         self.selected_card = None
+
     def run(self) -> None:
         """遊戲主循環"""
         while self.is_running:
@@ -63,6 +66,13 @@ class Game:
                     self.projectiles.append(new_pea)
                 elif event.action == 'PLANT_DIED':
                     self.plant_manager.remove_plant(event.dict['row'], event.dict['col'])
+                elif event.action == 'SHOW_DAMAGE':
+                    self.effect_manager.add_damage_indicator(
+                        event.dict['damage'], 
+                        event.dict['x'], 
+                        event.dict['y'],
+                        event.dict['is_plant_damage']
+                    )
 
     def _handle_mouse_click(self, pos: tuple[int, int]) -> None:
         """處理滑鼠點擊事件"""
@@ -99,21 +109,27 @@ class Game:
         self.card_manager.update(current_time)
         self.sun_manager.update(current_time)
         self.zombie_manager.update(current_time)
-        # 檢查碰撞
+        self.effect_manager.update()
+        # 檢查殭屍與植物的碰撞
         self.zombie_manager.check_collisions(self.plant_manager.plants)
         
         # 更新豌豆
         for pea in self.projectiles[:]:  # 使用切片創建副本以避免在迭代時修改列表
             pea.update()
-            
             # 檢查碰撞
             for zombie in self.zombie_manager.zombies[:]:  # 假設你有一個zombies列表
                 if zombie.row == pea.row:  # 只檢查同一行的殭屍
                     if pea.get_rect().colliderect(zombie.get_rect()):
                         zombie.take_damage(pea.damage)
+                        # 添加傷害數字效果
+                        self.effect_manager.add_damage_indicator(
+                            pea.damage,
+                            zombie.x,
+                            zombie.get_rect().y,
+                            False  # 殭屍受傷
+                        )
                         pea.active = False
                         break
-            
             # 移除非活動的豌豆
             if not pea.active:
                 self.projectiles.remove(pea)
@@ -132,6 +148,7 @@ class Game:
         self.zombie_manager.draw(self.screen)
         for pea in self.projectiles:
             pea.draw(self.screen)
+        self.effect_manager.draw(self.screen)
         pygame.display.flip()
 
     def _maintain_frame_rate(self) -> None:
