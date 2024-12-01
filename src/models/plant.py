@@ -76,7 +76,7 @@ class Sunflower(Plant):
     """向日葵類"""
     def __init__(self, row: int, col: int):
         super().__init__(row, col, PlantType.SUNFLOWER)
-        self.sun_production_time = 500
+        self.sun_production_time = 5000
         
     def update(self, current_time: int) -> None:
         """產生陽光"""
@@ -86,19 +86,39 @@ class Sunflower(Plant):
             x = self.col * GridSettings.CELL_WIDTH + GridSettings.GRID_START_X
             y = self.row * GridSettings.CELL_HEIGHT + GridSettings.GRID_START_Y
             # 發出產生陽光的信號（這部分需要通過事件系統實現）
-            # pygame.event.post(pygame.event.Event(
-            #     pygame.USEREVENT, 
-            #     {'type': 'PRODUCE_SUN', 'position': (x, y)}
-            # ))
+            pygame.event.post(pygame.event.Event(
+                pygame.USEREVENT, 
+                {'action': 'PRODUCE_SUN', 'x': x, 'y': y}
+            ))
             self.last_attack_time = current_time
 
 class Peashooter(Plant):
     """豌豆射手類"""
     def __init__(self, row: int, col: int):
         super().__init__(row, col, PlantType.PEASHOOTER)
+        self.attack_interval = 3000
+    def update(self, current_time: int) -> None:
+        """更新豌豆射手狀態"""
+        super().update(current_time)
+        if current_time - self.last_attack_time >= self.attack_interval:
+            self.attack()
+            self.last_attack_time = current_time
 
     def attack(self) -> None:
         """發射豌豆"""
-        # TODO: 實現發射豌豆的邏輯
-        pass
+        # 計算豌豆發射的起始位置
+        x = self.col * GridSettings.CELL_WIDTH + GridSettings.GRID_START_X
+        y = self.row * GridSettings.CELL_HEIGHT + GridSettings.GRID_START_Y + GridSettings.CELL_HEIGHT // 2
+        
+        # 發送發射豌豆的事件
+        pygame.event.post(pygame.event.Event(
+            pygame.USEREVENT,
+            {
+                'action': 'SHOOT_PEA',
+                'damage': self.stats.attack,
+                'row': self.row,
+                'x': x,
+                'y': y
+            }
+        ))
 

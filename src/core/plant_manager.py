@@ -1,15 +1,15 @@
 """植物管理器"""
 from typing import Dict, Tuple
 import pygame
-from models.plant import Plant, Sunflower, Peashooter, PlantType
+from models.plant import Plant, Sunflower, Peashooter, PlantType, PLANT_STATS
 
 class PlantManager:
     def __init__(self):
         self.plants: Dict[Tuple[int, int], Plant] = {}
 
-    def add_plant(self, row: int, col: int, plant_type: PlantType) -> bool:
+    def add_plant(self, row: int, col: int, plant_type: PlantType, current_sun: int) -> bool:
         """添加植物"""
-        if self.can_place_plant(row, col):
+        if self.can_place_plant(row, col) and current_sun >= PLANT_STATS[plant_type].cost:
             if plant_type == PlantType.SUNFLOWER:
                 plant = Sunflower(row, col)
             elif plant_type == PlantType.PEASHOOTER:
@@ -18,6 +18,12 @@ class PlantManager:
                 return False
 
             self.plants[(row, col)] = plant
+            
+            #costsun
+            pygame.event.post(pygame.event.Event(
+                pygame.USEREVENT,
+                {'action': 'COST_SUN', 'amount': PLANT_STATS[plant_type].cost}
+            ))
             return True
         return False
 
@@ -34,3 +40,17 @@ class PlantManager:
         """繪製所有植物"""
         for plant in self.plants.values():
             plant.draw(surface, grid_start_x, grid_start_y)
+
+    def shoot_pea(self, row: int, x: int, y: int, damage: int) -> None:
+        """發射豌豆"""
+        self.plants[(row, col)].attack()
+        
+    def remove_plant(self, row: int, col: int) -> None:
+        """移除植物"""
+        if (row, col) in self.plants:
+            del self.plants[(row, col)]
+            # 發送植物移除事件
+            pygame.event.post(pygame.event.Event(
+                pygame.USEREVENT,
+                {'action': 'PLANT_REMOVED', 'row': row, 'col': col}
+            ))
