@@ -64,6 +64,12 @@ class SunManager:
         sun_text = self.font.render(str(self.sun_count), True, (0, 0, 0))
         sun_icon = pygame.Surface((30, 30))
         sun_icon.fill((255, 255, 0))
+
+        # 計算左下角位置
+        icon_x = 20
+        icon_y = surface.get_height() - 50  # 距離底部50像素
+        text_x = icon_x + 40
+        text_y = icon_y + 5  # 稍微調整文字垂直位置使其居中
         
-        surface.blit(sun_icon, (40, 20))
-        surface.blit(sun_text, (80, 25))
+        surface.blit(sun_icon, (icon_x, icon_y))
+        surface.blit(sun_text, (text_x, text_y))

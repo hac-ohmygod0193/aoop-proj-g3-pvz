@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 import pygame
 from models.plant import PlantType, PLANT_STATS
+from config.settings import CardSettings
 
 @dataclass
 class CardInfo:
@@ -10,6 +11,8 @@ class CardInfo:
     cost: int
     cooldown: float  # 冷卻時間（秒）
     image_path: str  # 圖片路徑
+
+
 
 class PlantCard:
     """植物卡片類"""
@@ -23,7 +26,7 @@ class PlantCard:
     def _load_image(self) -> None:
         """加載卡片圖片"""
         # TODO: 替換為實際圖片
-        self.image = pygame.Surface((70, 90))
+        self.image = pygame.Surface((CardSettings.CARD_WIDTH, CardSettings.CARD_HEIGHT))
         self.image.fill((200, 200, 200))
         # 添加文字顯示費用
         font = pygame.font.Font(None, 24)
@@ -49,11 +52,11 @@ class PlantCard:
         
         # 如果正在冷卻中，顯示灰色遮罩
         if self.is_cooling_down:
-            mask = pygame.Surface((70, 90))
+            mask = pygame.Surface((CardSettings.CARD_WIDTH, CardSettings.CARD_HEIGHT))
             mask.fill((128, 128, 128))
             mask.set_alpha(128)
             surface.blit(mask, (x, y))
         
         # 如果被選中，繪製選中框
         if self.is_selected:
-            pygame.draw.rect(surface, (255, 255, 0), (x-2, y-2, 74, 94), 2)
+            pygame.draw.rect(surface, (255, 255, 0), (x-2, y-2, CardSettings.CARD_WIDTH+4, CardSettings.CARD_HEIGHT+4), 2)
