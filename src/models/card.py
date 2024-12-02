@@ -50,12 +50,22 @@ class PlantCard:
         # 繪製卡片背景
         surface.blit(self.image, (x, y))
         
-        # 如果正在冷卻中，顯示灰色遮罩
+         # 如果正在冷卻中，顯示灰色的遮罩
         if self.is_cooling_down:
-            mask = pygame.Surface((CardSettings.CARD_WIDTH, CardSettings.CARD_HEIGHT))
-            mask.fill((128, 128, 128))
-            mask.set_alpha(128)
-            surface.blit(mask, (x, y))
+            # 計算冷卻進度
+            current_time = pygame.time.get_ticks()
+            elapsed_time = current_time - self.last_used_time
+            cooldown_duration = self.info.cooldown * 1000  # 轉換為毫秒
+            cooldown_progress = min(elapsed_time / cooldown_duration, 1)  # 計算冷卻進度，最大為 1
+
+            # 根據冷卻進度，計算遮罩的高度
+            mask_height = CardSettings.CARD_HEIGHT * (1 - cooldown_progress)
+            
+            # 創建一個新的遮罩 surface
+            mask = pygame.Surface((CardSettings.CARD_WIDTH, mask_height))
+            mask.fill((128, 128, 128))  # 灰色遮罩
+            mask.set_alpha(200)  # 半透明
+            surface.blit(mask, (x, y))  # 繪製遮罩
         
         # 如果被選中，繪製選中框
         if self.is_selected:
