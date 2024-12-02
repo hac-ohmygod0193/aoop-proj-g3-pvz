@@ -7,11 +7,11 @@ from core.plant_manager import PlantManager
 from core.card_manager import CardManager
 from core.sun_manager import SunManager
 from core.zombie_manager import ZombieManager
-from models.plant import PlantType
 from models.projectiles import Pea
 from core.effect_manager import EffectManager
+from core.base_game import BaseGame
 
-class Game:
+class SinglePlayerGame(BaseGame):
     def __init__(self):
         pygame.init()
         self._setup_window()
@@ -80,7 +80,7 @@ class Game:
         if(self.sun_manager.handle_click(pos)):
             return
         # 檢查是否點擊卡片
-        card = self.card_manager.handle_click(pos) # type: PlantCard
+        card = self.card_manager.handle_click(pos)
         plant_type = card.info.plant_type if card else None
         if plant_type:
             self.selected_plant_type = plant_type

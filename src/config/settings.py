@@ -44,3 +44,5 @@ class Colors:
     PLANT_COLOR = (0, 255, 0)
     SUNFLOWER_COLOR = (255, 150, 0)
     CARD_COLOR = (200, 200, 200)
+    BUTTON_NORMAL = (200, 200, 200)
+    BUTTON_HOVER = (150, 150, 150)
