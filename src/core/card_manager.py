@@ -3,6 +3,7 @@ from typing import List, Optional
 import pygame
 from models.card import PlantCard, CardInfo
 from models.plant import PlantType
+from config.settings import CardSettings
 
 class CardManager:
     def __init__(self):
@@ -32,11 +33,16 @@ class CardManager:
         card_y = 10  # 卡片起始y座標
         
         for i, card in enumerate(self.cards):
-            card_x = 10 + i * 80  # 卡片x座標
+            card_x = 10 + i * CardSettings.CARD_WIDTH  # 卡片x座標
             
-            if (card_x <= x <= card_x + 70 and 
-                card_y <= y <= card_y + 90 and 
+            if (card_x <= x <= card_x + CardSettings.CARD_WIDTH and 
+                card_y <= y <= card_y + CardSettings.CARD_HEIGHT and 
                 not card.is_cooling_down):
+                
+                if self.selected_card == card:
+                    card.is_selected = False
+                    self.selected_card = None
+                    return None
                 
                 # 取消之前的選擇
                 if self.selected_card:

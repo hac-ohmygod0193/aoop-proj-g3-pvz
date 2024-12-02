@@ -2,7 +2,7 @@
 from dataclasses import dataclass
 import pygame
 from models.plant import PlantType, PLANT_STATS
-from config.settings import CardSettings
+from config.settings import CardSettings, Colors
 
 @dataclass
 class CardInfo:
@@ -27,10 +27,10 @@ class PlantCard:
         """加載卡片圖片"""
         # TODO: 替換為實際圖片
         self.image = pygame.Surface((CardSettings.CARD_WIDTH, CardSettings.CARD_HEIGHT))
-        self.image.fill((200, 200, 200))
+        self.image.fill(Colors.CARD_COLOR)
         # 添加文字顯示費用
         font = pygame.font.Font(None, 24)
-        cost_text = font.render(str(self.info.cost), True, (0, 0, 0))
+        cost_text = font.render(str(self.info.cost), True, Colors.BLACK)
         self.image.blit(cost_text, (5, 5))
 
     def update(self, current_time: int) -> None:
@@ -63,7 +63,7 @@ class PlantCard:
             
             # 創建一個新的遮罩 surface
             mask = pygame.Surface((CardSettings.CARD_WIDTH, mask_height))
-            mask.fill((128, 128, 128))  # 灰色遮罩
+            mask.fill(Colors.GRAY)  # 灰色遮罩
             mask.set_alpha(200)  # 半透明
             surface.blit(mask, (x, y))  # 繪製遮罩
         

@@ -89,8 +89,6 @@ class Game:
 
         # 如果已選擇植物，嘗試放置
         if self.selected_plant_type and self.sun_manager.can_afford(self.selected_card.info.cost):
-            print("selected_plant_type", self.selected_plant_type)
-            print(self.selected_card.info.cost)
             cell = self.grid.get_cell_from_pos(pos)
             if cell:
                 row, col = cell
@@ -100,7 +98,8 @@ class Game:
                     self.sun_manager.spend_sun(self.selected_card.info.cost) # 扣除陽光
                     self.selected_plant_type = None
         elif self.selected_plant_type:
-            print("Not enough sun")
+            # print("Not enough sun")
+            pass
 
     def _update(self) -> None:
         """更新遊戲狀態"""

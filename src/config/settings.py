@@ -37,6 +37,8 @@ class PlantSettings:
 class Colors:
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
+    GRAY = (128, 128, 128)
     SUN_ICON = (255, 255, 0)
     PLANT_COLOR = (0, 255, 0)
     SUNFLOWER_COLOR = (255, 150, 0)
+    CARD_COLOR = (200, 200, 200)
