@@ -36,19 +36,36 @@ class MultiplayerZombieManager(ZombieManager):
         self._draw_flag_health(surface)  # 添加旗幟生命值條
 
     def _draw_flag_health(self, surface: pygame.Surface) -> None:
-        """繪製旗幟生命值條"""
-        bar_width = 200
-        bar_height = 20
-        x = GridSettings.GRID_START_X + (GridSettings.COLS - 3) * GridSettings.CELL_WIDTH
-        y = 20
+        """繪製旗幟生命值條（垂直方向）"""
+        bar_width = 20
+        bar_height = 300
+        # 放在畫面最右邊，留一點邊距
+        x = surface.get_width() - bar_width - 10
+        y = 150  # 從上方開始
 
-        # 背景條（紅色）
+        # 繪製旗幟圖示
+        flag_rect = pygame.Rect(x - 5, y - 40, 40, 30)
+        pygame.draw.rect(surface, Colors.RED, flag_rect)
+        
+        # 繪製背景條（紅色）
         pygame.draw.rect(surface, Colors.RED, (x, y, bar_width, bar_height))
         
-        # 當前生命值條（綠色）
-        current_width = int(bar_width * (self.flag_health / self.max_flag_health))
-        if current_width > 0:
-            pygame.draw.rect(surface, Colors.GREEN, (x, y, current_width, bar_height))
+        # 計算當前生命值高度（從上往下減少）
+        current_height = int(bar_height * (self.flag_health / self.max_flag_health))
+        if current_height > 0:
+            # 繪製當前生命值條（綠色）
+            pygame.draw.rect(surface, Colors.GREEN, (x, y, bar_width, current_height))
+
+        # 繪製邊框
+        border_rect = pygame.Rect(x, y, bar_width, bar_height)
+        pygame.draw.rect(surface, Colors.BLACK, border_rect, 2)
+
+        # 繪製生命值文字
+        font = pygame.font.Font(None, 24)
+        health_text = font.render(f"{self.flag_health}", True, Colors.BLACK)
+        text_x = x + (bar_width - health_text.get_width()) // 2
+        text_y = y + bar_height + 10
+        surface.blit(health_text, (text_x, text_y))
 
     def take_flag_damage(self, damage: int) -> None:
         """旗幟受到傷害"""

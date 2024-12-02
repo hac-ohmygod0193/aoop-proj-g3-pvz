@@ -19,7 +19,6 @@ class MultiPlayerGame(SinglePlayerGame):
         """初始化遊戲物件"""
         super()._setup_game_objects()
         self.zombie_manager = MultiplayerZombieManager()
-        self.tombstone_manager = TombstoneManager()
         self.brain_manager = BrainManager()
         self.grid = MultiplayerGrid(self.screen)  # 使用多人模式網格
 
@@ -33,7 +32,6 @@ class MultiPlayerGame(SinglePlayerGame):
             # 處理鍵盤事件
             if event.type == pygame.KEYDOWN:
                 self.grid.handle_keyboard_event(event)
-                
                 # 處理殭屍放置
                 if event.key == pygame.K_1:
                     self.selected_zombie_type = ZombieType.NORMAL
@@ -47,26 +45,12 @@ class MultiPlayerGame(SinglePlayerGame):
         if self.selected_zombie_type:
             row, col = self.grid.get_selected_cell()
             if self.grid.is_in_zombie_zone(col):
-                if self.selected_zombie_type == Tombstone:
-                    if self.brain_manager.spend_brain(Tombstone.COST):
-                        self.tombstone_manager.place_tombstone(row, col)
-                else:
-                    if self.brain_manager.spend_brain(self.selected_zombie_type.COST):
-                        self.zombie_manager.spawn_zombie(self.selected_zombie_type, row)
-                self.selected_zombie_type = None
+                pass
 
     def _update(self) -> None:
         """更新遊戲狀態"""
         super()._update()
         self.brain_manager.update(pygame.time.get_ticks())
-        self.tombstone_manager.update()
-        
-        # 檢查豌豆與墓碑的碰撞
-        for pea in self.projectiles[:]:
-            if self.tombstone_manager.handle_projectile_collision(pea):
-                pea.active = False
-                self.projectiles.remove(pea)
-                continue
 
     def _render(self) -> None:
         """渲染遊戲畫面"""
@@ -80,8 +64,8 @@ class MultiPlayerGame(SinglePlayerGame):
         self.effect_manager.draw(self.screen)
         self.brain_manager.draw(self.screen)
         self.zombie_manager.draw(self.screen)
-        self.tombstone_manager.draw(self.screen)
         pygame.display.flip()
+
     def _check_game_over(self) -> bool:
         """檢查遊戲是否結束"""
         # 檢查是否有殭屍到達底線

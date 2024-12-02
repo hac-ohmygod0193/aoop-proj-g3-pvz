@@ -27,7 +27,7 @@ class SunSettings:
     SUN_WIDTH = 40
     SUN_HEIGHT = 40
     SUN_VALUE = 25
-    SUN_GENERATE_INTERVAL = 10000
+    SUN_GENERATE_INTERVAL = 5000
     SUN_DISAPPEAR_TIME = 10000
     SUN_FALL_SPEED = 2
     SUN_COLLECT_SPEED = 10
@@ -56,7 +56,7 @@ class Colors:
 class BrainSettings:
     gameSettings = GameSettings()
     INITIAL_BRAIN = 50
-    BRAIN_GENERATE_INTERVAL = 10000  # 每10秒生成一次大腦
+    BRAIN_GENERATE_INTERVAL = 5000  # 每10秒生成一次大腦
     BRAIN_GENERATE_AMOUNT = 25
     BRAIN_ICON_X = gameSettings.WINDOW_WIDTH - 100
     BRAIN_ICON_Y = gameSettings.WINDOW_HEIGHT - 50

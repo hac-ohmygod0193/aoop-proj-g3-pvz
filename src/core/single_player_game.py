@@ -83,6 +83,7 @@ class SinglePlayerGame(BaseGame):
         # 檢查是否點擊卡片
         card = self.card_manager.handle_click(pos)
         plant_type = card.info.plant_type if card else None
+
         if plant_type:
             self.selected_plant_type = plant_type
             self.selected_card = card
@@ -90,9 +91,12 @@ class SinglePlayerGame(BaseGame):
 
         # 如果已選擇植物，嘗試放置
         if self.selected_plant_type and self.sun_manager.can_afford(self.selected_card.info.cost):
+
             cell = self.grid.get_cell_from_pos(pos)
             if cell:
                 row, col = cell
+                if not self.grid.is_in_plant_zone(col):
+                    return
                 if self.plant_manager.add_plant(row, col, self.selected_plant_type, self.sun_manager.sun_count):
                     current_time = pygame.time.get_ticks()
                     self.card_manager.use_card(self.selected_plant_type, current_time)
@@ -125,7 +129,6 @@ class SinglePlayerGame(BaseGame):
         self.effect_manager.update()
         # 檢查殭屍與植物的碰撞
         self.zombie_manager.check_collisions(self.plant_manager.plants)
-        
         # 更新豌豆
         for pea in self.projectiles[:]:  # 使用切片創建副本以避免在迭代時修改列表
             pea.update()

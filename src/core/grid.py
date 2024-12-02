@@ -46,7 +46,9 @@ class Grid:
         col = (x - self.start_x) // GridSettings.CELL_WIDTH
         row = (y - self.start_y) // GridSettings.CELL_HEIGHT
         return (row, col)
-
+    def is_in_plant_zone(self, pos: Tuple[int, int]) -> bool:
+        return True
+    
     def _is_within_grid(self, x: int, y: int) -> bool:
         """檢查座標是否在網格範圍內"""
         return (self.start_x <= x <= self.start_x + GridSettings.COLS * GridSettings.CELL_WIDTH and

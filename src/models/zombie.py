@@ -9,6 +9,7 @@ class ZombieType(Enum):
     NORMAL = auto()
     CONE_HEAD = auto()
     BUCKET_HEAD = auto()
+    TOMBSTONE = auto()
 
 @dataclass
 class ZombieStats:
@@ -37,6 +38,12 @@ ZOMBIE_STATS = {
         damage=20,
         speed=0.5,
         eat_speed=1.0
+    ),
+    ZombieType.TOMBSTONE: ZombieStats(
+        health=1000,
+        damage=0,
+        speed=0,
+        eat_speed=0
     )
 }
 
@@ -65,6 +72,8 @@ class Zombie:
             color = (139, 69, 19)  # 褐色
         elif self.type == ZombieType.BUCKET_HEAD:
             color = (192, 192, 192)  # 銀色
+        elif self.type == ZombieType.TOMBSTONE:
+            color = (80, 0, 80)
         self.image.fill(color)
 
     def update(self, current_time: int) -> None:
