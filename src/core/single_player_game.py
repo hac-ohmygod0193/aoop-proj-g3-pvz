@@ -10,6 +10,7 @@ from core.zombie_manager import ZombieManager
 from models.projectiles import Pea
 from core.effect_manager import EffectManager
 from core.base_game import BaseGame
+from core.game_over_screen import GameOverScreen
 
 class SinglePlayerGame(BaseGame):
     def __init__(self):
@@ -101,6 +102,19 @@ class SinglePlayerGame(BaseGame):
             # print("Not enough sun")
             pass
 
+    def _check_game_over(self) -> bool:
+        """檢查遊戲是否結束"""
+        # 檢查是否有殭屍到達底線
+        for zombie in self.zombie_manager.zombies:
+            if zombie.x <= GridSettings.GRID_START_X:
+                return True
+        return False
+
+    def _show_game_over(self) -> bool:
+        """顯示遊戲結束畫面"""
+        game_over = GameOverScreen(self.screen, "Zombies")
+        return game_over.run()
+
     def _update(self) -> None:
         """更新遊戲狀態"""
         current_time = pygame.time.get_ticks()
@@ -137,6 +151,15 @@ class SinglePlayerGame(BaseGame):
         if self.zombie_manager.wave_complete:
             self.zombie_manager.start_new_wave()
             
+        # 檢查遊戲是否結束
+        if self._check_game_over():
+            if self._show_game_over():
+                # 返回主選單
+                self.is_running = False
+            else:
+                # 用戶關閉視窗
+                self._quit_game()
+
     def _render(self) -> None:
         """渲染遊戲畫面"""
         self.screen.fill(Colors.WHITE)
