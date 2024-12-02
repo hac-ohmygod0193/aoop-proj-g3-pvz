@@ -46,3 +46,15 @@ class Colors:
     CARD_COLOR = (200, 200, 200)
     BUTTON_NORMAL = (200, 200, 200)
     BUTTON_HOVER = (150, 150, 150)
+    ZONE_SEPARATOR = (255, 0, 0)  # 分隔線顏色
+    CELL_HIGHLIGHT = (255, 255, 0)  # 選中格子的高亮顏色
+
+class BrainSettings:
+    INITIAL_BRAIN = 100
+    BRAIN_GENERATE_INTERVAL = 5000  # 5秒
+    BRAIN_GENERATE_AMOUNT = 25
+
+class ZombieZoneSettings:
+    COLS_START = 6
+    COLS_END = 9
+    FLAG_HEALTH = 1000  # 殭屍方旗幟的生命值
