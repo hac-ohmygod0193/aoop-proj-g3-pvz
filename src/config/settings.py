@@ -40,6 +40,8 @@ class Colors:
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
     GRAY = (128, 128, 128)
+    RED = (255, 0, 0)
+    GREEN = (0, 255, 0)
     SUN_ICON = (255, 255, 0)
     PLANT_COLOR = (0, 255, 0)
     SUNFLOWER_COLOR = (255, 150, 0)
@@ -58,3 +60,9 @@ class ZombieZoneSettings:
     COLS_START = 6
     COLS_END = 9
     FLAG_HEALTH = 1000  # 殭屍方旗幟的生命值
+
+class TombstoneSettings:
+    HEALTH = 200  # 墓碑生命值
+    COST = 75    # 放置墓碑所需的 brain
+    WIDTH = 60   # 墓碑寬度
+    HEIGHT = 80  # 墓碑高度

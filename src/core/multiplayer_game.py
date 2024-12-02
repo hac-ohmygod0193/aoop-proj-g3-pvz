@@ -1,22 +1,91 @@
 """多人遊戲模式"""
+import pygame
 from core.single_player_game import SinglePlayerGame
+from core.multiplayer_grid import MultiplayerGrid
+from core.brain_manager import BrainManager
+from models.zombie import ZombieType
+from models.tombstone import Tombstone
+from core.multiplayer_zombie_manager import MultiplayerZombieManager
+from core.tombstone_manager import TombstoneManager
+from ui.game_over import GameOverScreen
 
 class MultiPlayerGame(SinglePlayerGame):
     def __init__(self):
         super().__init__()
-        
+        self.selected_zombie_type = None
+
     def _setup_game_objects(self) -> None:
-        # 移動現有的 _setup_game_objects 邏輯到這裡
-        pass
+        """初始化遊戲物件"""
+        super()._setup_game_objects()
+        self.brain_manager = BrainManager()
+        self.zombie_manager = MultiplayerZombieManager()
+        self.tombstone_manager = TombstoneManager()
+        self.grid = MultiplayerGrid(self.screen)  # 使用多人模式網格
+        # self.zombie_manager.setup(self.screen)
+        
 
     def _handle_events(self) -> None:
-        # 移動現有的 _handle_events 邏輯到這裡
-        pass
+        """處理遊戲事件"""
+        super()._handle_events()  # 處理基本事件
+        
+        # 處理鍵盤輸入
+        keys = pygame.key.get_pressed()
+        self.grid.handle_keyboard_selection(keys)
+
+        # 檢查殭屍方的放置
+        if keys[pygame.K_1]:
+            self.selected_zombie_type = ZombieType.NORMAL
+        elif keys[pygame.K_2]:
+            self.selected_zombie_type = ZombieType.CONE_HEAD
+        elif keys[pygame.K_3]:
+            self.selected_zombie_type = Tombstone
+
+        if self.selected_zombie_type:
+            row, col = self.grid.get_selected_cell()
+            if self.grid.is_in_zombie_zone(col):
+                if self.selected_zombie_type == Tombstone:
+                    if self.brain_manager.spend_brain(Tombstone.COST):
+                        self.tombstone_manager.place_tombstone(row, col)
+                else:
+                    if self.brain_manager.spend_brain(self.selected_zombie_type.COST):
+                        self.zombie_manager.spawn_zombie(self.selected_zombie_type, row)
+                self.selected_zombie_type = None
 
     def _update(self) -> None:
-        # 移動現有的 _update 邏輯到這裡
-        pass
+        """更新遊戲狀態"""
+        super()._update()
+        self.brain_manager.update(pygame.time.get_ticks())
+        self.tombstone_manager.update()
+        
+        # 檢查豌豆與墓碑的碰撞
+        for pea in self.projectiles[:]:
+            if self.tombstone_manager.handle_projectile_collision(pea):
+                pea.active = False
+                self.projectiles.remove(pea)
+                continue
 
     def _render(self) -> None:
-        # 移動現有的 _render 邏輯到這裡
-        pass
+        """渲染遊戲畫面"""
+        super()._render()
+        self.brain_manager.draw(self.screen)
+        self.zombie_manager.draw(self.screen)
+        self.tombstone_manager.draw(self.screen)
+
+    def _check_game_over(self) -> bool:
+        """檢查遊戲是否結束"""
+        # 檢查是否有殭屍到達底線
+        for zombie in self.zombie_manager.zombies:
+            if zombie.x <= self.grid.start_x:
+                return True
+
+        # 檢查殭屍方旗幟是否被摧毀
+        if self.zombie_manager.is_flag_destroyed():
+            return True
+
+        return False
+
+    def _show_game_over(self) -> bool:
+        """顯示遊戲結束畫面"""
+        winner = "Plants" if self.zombie_manager.is_flag_destroyed() else "Zombies"
+        game_over = GameOverScreen(self.screen, winner)
+        return game_over.run()

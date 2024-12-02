@@ -1,6 +1,6 @@
 """殭屍方資源管理器"""
 import pygame
-from config.settings import BrainSettings
+from config.settings import BrainSettings, Colors, GameSettings
 
 class BrainManager:
     def __init__(self):

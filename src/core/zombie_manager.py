@@ -14,6 +14,11 @@ class ZombieManager:
         self.zombies_spawned = 0
         self.wave_complete = False
         self.spawn_interval = 10000  # 10秒生成一個殭屍
+        self.screen: pygame.Surface = None  # 添加 screen 屬性
+
+    def setup(self, screen: pygame.Surface) -> None:
+        """設置畫面"""
+        self.screen = screen
 
     def update(self, current_time: int) -> None:
         """更新所有殭屍"""
