@@ -10,7 +10,7 @@ from core.zombie_manager import ZombieManager
 from models.projectiles import Pea
 from core.effect_manager import EffectManager
 from core.base_game import BaseGame
-from core.game_over_screen import GameOverScreen
+from ui.game_over import GameOverScreen
 
 class SinglePlayerGame(BaseGame):
     def __init__(self):

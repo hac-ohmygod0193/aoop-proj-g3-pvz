@@ -1,16 +1,14 @@
 """遊戲結束畫面"""
 import pygame
 from config.settings import GameSettings, Colors
+from ui.base_screen import BaseScreen
 
-class GameOverScreen:
+class GameOverScreen(BaseScreen):
     def __init__(self, screen: pygame.Surface, winner: str):
-        self.screen = screen
+        super().__init__(screen)
         self.winner = winner
-        self.font_large = pygame.font.Font(None, 74)
-        self.font_small = pygame.font.Font(None, 36)
-        self.is_running = True
         
-        # 確認按鈕
+        # 初始化確認按鈕
         button_width = 200
         button_height = 50
         self.confirm_button = pygame.Rect(
@@ -22,11 +20,7 @@ class GameOverScreen:
 
     def draw(self) -> None:
         """繪製結束畫面"""
-        # 半透明背景
-        overlay = pygame.Surface((GameSettings.WINDOW_WIDTH, GameSettings.WINDOW_HEIGHT))
-        overlay.fill((0, 0, 0))
-        overlay.set_alpha(128)
-        self.screen.blit(overlay, (0, 0))
+        self.draw_overlay()
 
         # 勝利文字
         text = self.font_large.render(f"{self.winner} Win!", True, Colors.WHITE)
@@ -34,14 +28,11 @@ class GameOverScreen:
         self.screen.blit(text, text_rect)
 
         # 確認按鈕
-        mouse_pos = pygame.mouse.get_pos()
-        button_color = Colors.BUTTON_HOVER if self.confirm_button.collidepoint(mouse_pos) else Colors.BUTTON_NORMAL
-        pygame.draw.rect(self.screen, button_color, self.confirm_button)
-        
-        # 按鈕文字
-        button_text = self.font_small.render("Back to Menu", True, Colors.BLACK)
-        button_text_rect = button_text.get_rect(center=self.confirm_button.center)
-        self.screen.blit(button_text, button_text_rect)
+        self.draw_button(
+            self.confirm_button,
+            "Back to Menu",
+            self.confirm_button.collidepoint(pygame.mouse.get_pos())
+        )
 
     def run(self) -> bool:
         """運行結束畫面"""
@@ -56,4 +47,4 @@ class GameOverScreen:
             self.draw()
             pygame.display.flip()
         
-        return False
+        return False 
