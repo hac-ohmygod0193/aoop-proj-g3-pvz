@@ -8,7 +8,7 @@ class MultiplayerGrid(Grid):
         super().__init__(surface)
         self.plant_zone = range(6)  # 0-5 列為植物區
         self.zombie_zone = range(6, 9)  # 6-8 列為殭屍區
-        self.selected_cell = None  # 用於殭屍方的選擇格子
+        self.selected_cell = (0, 6)  # 用於殭屍方的選擇格子
 
     def is_in_plant_zone(self, col: int) -> bool:
         """檢查是否在植物區域"""
@@ -43,24 +43,25 @@ class MultiplayerGrid(Grid):
         )
         pygame.draw.rect(self.surface, Colors.CELL_HIGHLIGHT, rect, 3)
 
-    def handle_keyboard_selection(self, keys) -> None:
-        """處理鍵盤選擇格子"""
+    def handle_keyboard_event(self, event: pygame.event.Event) -> None:
+        """處理鍵盤事件"""
         if not self.selected_cell:
             self.selected_cell = (0, 6)  # 預設選擇殭屍區域的第一格
             return
 
-        row, col = self.selected_cell
-        
-        if keys[pygame.K_w] and row > 0:
-            row -= 1
-        if keys[pygame.K_s] and row < GridSettings.ROWS - 1:
-            row += 1
-        if keys[pygame.K_a] and col > 6:
-            col -= 1
-        if keys[pygame.K_d] and col < GridSettings.COLS - 1:
-            col += 1
+        if event.type == pygame.KEYDOWN:
+            row, col = self.selected_cell
+            
+            if event.key == pygame.K_w and row > 0:
+                row -= 1
+            elif event.key == pygame.K_s and row < GridSettings.ROWS - 1:
+                row += 1
+            elif event.key == pygame.K_a and col > 6:
+                col -= 1
+            elif event.key == pygame.K_d and col < GridSettings.COLS - 1:
+                col += 1
 
-        self.selected_cell = (row, col)
+            self.selected_cell = (row, col)
 
     def get_selected_cell(self) -> tuple[int, int]:
         """獲取當前選中的格子"""

@@ -26,20 +26,25 @@ class MultiPlayerGame(SinglePlayerGame):
 
     def _handle_events(self) -> None:
         """處理遊戲事件"""
-        super()._handle_events()  # 處理基本事件
-        
         # 處理鍵盤輸入
-        keys = pygame.key.get_pressed()
-        self.grid.handle_keyboard_selection(keys)
-
-        # 檢查殭屍方的放置
-        if keys[pygame.K_1]:
-            self.selected_zombie_type = ZombieType.NORMAL
-        elif keys[pygame.K_2]:
-            self.selected_zombie_type = ZombieType.CONE_HEAD
-        elif keys[pygame.K_3]:
-            self.selected_zombie_type = Tombstone
-
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self._quit_game()
+                
+            # 處理鍵盤事件
+            if event.type == pygame.KEYDOWN:
+                self.grid.handle_keyboard_event(event)
+                
+                # 處理殭屍放置
+                if event.key == pygame.K_1:
+                    self.selected_zombie_type = ZombieType.NORMAL
+                elif event.key == pygame.K_2:
+                    self.selected_zombie_type = ZombieType.CONE_HEAD
+                elif event.key == pygame.K_3:
+                    self.selected_zombie_type = Tombstone
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                super()._handle_mouse_click(event.pos)
+            
         if self.selected_zombie_type:
             row, col = self.grid.get_selected_cell()
             if self.grid.is_in_zombie_zone(col):
