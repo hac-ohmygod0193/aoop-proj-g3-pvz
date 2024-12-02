@@ -20,6 +20,23 @@ class CardSettings:
     CARD_WIDTH = 60
     CARD_HEIGHT = 70
 
+class SunSettings:
+    gameSettings = GameSettings()
+    SUN_WIDTH = 40
+    SUN_HEIGHT = 40
+    SUN_VALUE = 25
+    SUN_DISAPPEAR_TIME = 10000
+    SUN_FALL_SPEED = 2
+    SUN_COLLECT_SPEED = 10
+    SUN_ICON_X = 20
+    SUN_ICON_Y = gameSettings.WINDOW_HEIGHT - 50
+
+class PlantSettings:
+    SUNFLOWER_PRODUCTION_TIME = 5000
+
 class Colors:
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
+    SUN_ICON = (255, 255, 0)
+    PLANT_COLOR = (0, 255, 0)
+    SUNFLOWER_COLOR = (255, 150, 0)

@@ -1,7 +1,7 @@
 """陽光模型"""
 import random
 import pygame
-from config.settings import GameSettings
+from config.settings import GameSettings, SunSettings
 
 class Sun:
     """陽光類"""
@@ -9,10 +9,10 @@ class Sun:
         self.x = x
         self.y = y
         self.target_y = target_y
-        self.value = 25  # 陽光值
+        self.value = SunSettings.SUN_VALUE  # 陽光值
         self.collected = False
         self.falling = target_y is not None
-        self.disappear_time = pygame.time.get_ticks() + 10000  # 10秒後消失
+        self.disappear_time = pygame.time.get_ticks() + SunSettings.SUN_DISAPPEAR_TIME  # 10秒後消失
         self._init_animation()
 
     def _init_animation(self) -> None:
@@ -23,10 +23,10 @@ class Sun:
         self.image.set_alpha(200)
         
         # 掉落速度
-        self.fall_speed = 2
+        self.fall_speed = SunSettings.SUN_FALL_SPEED
         # 收集動畫的目標位置（陽光計數器的位置）
-        self.collect_target = (80, 30)  # 調整到你的UI位置
-        self.collect_speed = 10
+        self.collect_target = (SunSettings.SUN_ICON_X, SunSettings.SUN_ICON_Y)  # 調整到你的UI位置
+        self.collect_speed = SunSettings.SUN_COLLECT_SPEED
 
     def update(self, current_time: int) -> bool:
         """更新陽光狀態"""

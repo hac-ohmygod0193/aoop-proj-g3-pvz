@@ -2,7 +2,7 @@
 from enum import Enum, auto
 from dataclasses import dataclass
 import pygame
-from config.settings import GridSettings
+from config.settings import GridSettings, Colors, PlantSettings
 
 class PlantType(Enum):
     """植物類型"""
@@ -44,7 +44,7 @@ class Plant:
         """加載植物圖片"""
         # TODO: 替換為實際的圖片加載
         self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
-        self.image.fill((0, 255, 0))  # 臨時用綠色表示
+        self.image.fill(Colors.PLANT_COLOR)
 
     def update(self, current_time: int) -> None:
         """更新植物狀態"""
@@ -80,7 +80,7 @@ class Sunflower(Plant):
     """向日葵類"""
     def __init__(self, row: int, col: int):
         super().__init__(row, col, PlantType.SUNFLOWER)
-        self.sun_production_time = 5000
+        self.sun_production_time = PlantSettings.SUNFLOWER_PRODUCTION_TIME
         self.last_attack_time = 0
 
     def update(self, current_time: int) -> None:
@@ -90,7 +90,6 @@ class Sunflower(Plant):
             # 計算陽光生成位置
             x = self.col * GridSettings.CELL_WIDTH + GridSettings.GRID_START_X
             y = self.row * GridSettings.CELL_HEIGHT + GridSettings.GRID_START_Y
-            # 發出產生陽光的信號（這部分需要通過事件系統實現）
             pygame.event.post(pygame.event.Event(
                 pygame.USEREVENT, 
                 {'action': 'PRODUCE_SUN', 'x': x, 'y': y}
@@ -100,13 +99,13 @@ class Sunflower(Plant):
     def _load_image(self) -> None:
         """加載植物圖片"""
         self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
-        self.image.fill((255, 150, 0))
+        self.image.fill(Colors.SUNFLOWER_COLOR)
 
 class Peashooter(Plant):
     """豌豆射手類"""
     def __init__(self, row: int, col: int):
         super().__init__(row, col, PlantType.PEASHOOTER)
-        self.attack_interval = 3000
+        self.attack_interval = self.stats.attack_speed * 1000
         self.last_attack_time = 0
 
     def update(self, current_time: int) -> None:

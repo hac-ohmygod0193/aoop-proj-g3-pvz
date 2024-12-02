@@ -3,6 +3,7 @@ import random
 import pygame
 from models.sun import Sun
 from typing import List
+from config.settings import SunSettings, Colors
 
 class SunManager:
     def __init__(self):
@@ -63,11 +64,11 @@ class SunManager:
         # 繪製陽光計數器
         sun_text = self.font.render(str(self.sun_count), True, (0, 0, 0))
         sun_icon = pygame.Surface((30, 30))
-        sun_icon.fill((255, 255, 0))
+        sun_icon.fill(Colors.SUN_ICON)
 
         # 計算左下角位置
-        icon_x = 20
-        icon_y = surface.get_height() - 50  # 距離底部50像素
+        icon_x = SunSettings.SUN_ICON_X
+        icon_y = SunSettings.SUN_ICON_Y
         text_x = icon_x + 40
         text_y = icon_y + 5  # 稍微調整文字垂直位置使其居中
         
