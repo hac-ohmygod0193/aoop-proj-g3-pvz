@@ -7,22 +7,21 @@ from models.zombie import ZombieType
 from models.tombstone import Tombstone
 from core.multiplayer_zombie_manager import MultiplayerZombieManager
 from core.tombstone_manager import TombstoneManager
+from config.settings import Colors
 from ui.game_over import GameOverScreen
 
 class MultiPlayerGame(SinglePlayerGame):
     def __init__(self):
         super().__init__()
         self.selected_zombie_type = None
-
+        
     def _setup_game_objects(self) -> None:
         """初始化遊戲物件"""
         super()._setup_game_objects()
-        self.brain_manager = BrainManager()
         self.zombie_manager = MultiplayerZombieManager()
         self.tombstone_manager = TombstoneManager()
+        self.brain_manager = BrainManager()
         self.grid = MultiplayerGrid(self.screen)  # 使用多人模式網格
-        # self.zombie_manager.setup(self.screen)
-        
 
     def _handle_events(self) -> None:
         """處理遊戲事件"""
@@ -71,11 +70,18 @@ class MultiPlayerGame(SinglePlayerGame):
 
     def _render(self) -> None:
         """渲染遊戲畫面"""
-        super()._render()
+        self.screen.fill(Colors.WHITE)
+        self.grid.draw()
+        self.plant_manager.draw(self.screen, self.grid.start_x, self.grid.start_y)
+        self.card_manager.draw(self.screen, self.sun_manager.sun_count)
+        self.sun_manager.draw(self.screen)
+        for pea in self.projectiles:
+            pea.draw(self.screen)
+        self.effect_manager.draw(self.screen)
         self.brain_manager.draw(self.screen)
         self.zombie_manager.draw(self.screen)
         self.tombstone_manager.draw(self.screen)
-
+        pygame.display.flip()
     def _check_game_over(self) -> bool:
         """檢查遊戲是否結束"""
         # 檢查是否有殭屍到達底線

@@ -27,6 +27,7 @@ class SunSettings:
     SUN_WIDTH = 40
     SUN_HEIGHT = 40
     SUN_VALUE = 25
+    SUN_GENERATE_INTERVAL = 10000
     SUN_DISAPPEAR_TIME = 10000
     SUN_FALL_SPEED = 2
     SUN_COLLECT_SPEED = 10
@@ -43,18 +44,22 @@ class Colors:
     RED = (255, 0, 0)
     GREEN = (0, 255, 0)
     SUN_ICON = (255, 255, 0)
+    BRAIN_ICON = (255, 0, 255)
     PLANT_COLOR = (0, 255, 0)
     SUNFLOWER_COLOR = (255, 150, 0)
     CARD_COLOR = (200, 200, 200)
     BUTTON_NORMAL = (200, 200, 200)
     BUTTON_HOVER = (150, 150, 150)
     ZONE_SEPARATOR = (255, 0, 0)  # 分隔線顏色
-    CELL_HIGHLIGHT = (255, 255, 0)  # 選中格子的高亮顏色
+    CELL_HIGHLIGHT = (255, 0, 100)  # 選中格子的高亮顏色
 
 class BrainSettings:
-    INITIAL_BRAIN = 100
-    BRAIN_GENERATE_INTERVAL = 5000  # 5秒
+    gameSettings = GameSettings()
+    INITIAL_BRAIN = 50
+    BRAIN_GENERATE_INTERVAL = 10000  # 每10秒生成一次大腦
     BRAIN_GENERATE_AMOUNT = 25
+    BRAIN_ICON_X = gameSettings.WINDOW_WIDTH - 100
+    BRAIN_ICON_Y = gameSettings.WINDOW_HEIGHT - 50
 
 class ZombieZoneSettings:
     COLS_START = 6

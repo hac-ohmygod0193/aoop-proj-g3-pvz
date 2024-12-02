@@ -1,6 +1,6 @@
 """殭屍方資源管理器"""
 import pygame
-from config.settings import BrainSettings, Colors, GameSettings
+from config.settings import BrainSettings, Colors
 
 class BrainManager:
     def __init__(self):
@@ -28,4 +28,15 @@ class BrainManager:
     def draw(self, surface: pygame.Surface) -> None:
         """繪製大腦計數器"""
         brain_text = self.font.render(str(self.brain_count), True, Colors.BLACK)
-        surface.blit(brain_text, (GameSettings.WINDOW_WIDTH - 100, 20))
+        
+        brain_icon = pygame.Surface((30, 30))
+        brain_icon.fill(Colors.BRAIN_ICON)
+
+        # 計算左下角位置
+        icon_x = BrainSettings.BRAIN_ICON_X
+        icon_y = BrainSettings.BRAIN_ICON_Y
+        text_x = icon_x + 40
+        text_y = icon_y + 5  # 稍微調整文字垂直位置使其居中
+        
+        surface.blit(brain_icon, (icon_x, icon_y))
+        surface.blit(brain_text, (text_x, text_y))

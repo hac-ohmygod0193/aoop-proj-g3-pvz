@@ -10,7 +10,7 @@ class SunManager:
         self.suns: List[Sun] = []
         self.sun_count = 50  # 初始陽光數量
         self.last_sun_spawn = 0
-        self.spawn_interval = 10000  # 每10秒自然生成一個陽光
+        self.spawn_interval = SunSettings.SUN_GENERATE_INTERVAL  # 每10秒自然生成一個陽光
         self._init_sun_counter()
 
     def _init_sun_counter(self) -> None:
@@ -62,7 +62,7 @@ class SunManager:
             sun.draw(surface)
         
         # 繪製陽光計數器
-        sun_text = self.font.render(str(self.sun_count), True, (0, 0, 0))
+        sun_text = self.font.render(str(self.sun_count), True, Colors.BLACK)
         sun_icon = pygame.Surface((30, 30))
         sun_icon.fill(Colors.SUN_ICON)
 
