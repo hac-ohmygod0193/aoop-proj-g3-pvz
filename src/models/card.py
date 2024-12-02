@@ -44,13 +44,13 @@ class PlantCard:
         self.is_cooling_down = True
         self.last_used_time = current_time
 
-    def draw(self, surface: pygame.Surface, position: tuple[int, int]) -> None:
+    def draw(self, surface: pygame.Surface, position: tuple[int, int], is_enough_sun) -> None:
         """繪製卡片"""
         x, y = position
         # 繪製卡片背景
         surface.blit(self.image, (x, y))
         
-         # 如果正在冷卻中，顯示灰色的遮罩
+         # 如果正在冷卻中，顯示灰色遮罩
         if self.is_cooling_down:
             # 計算冷卻進度
             current_time = pygame.time.get_ticks()
@@ -66,7 +66,14 @@ class PlantCard:
             mask.fill(Colors.GRAY)  # 灰色遮罩
             mask.set_alpha(200)  # 半透明
             surface.blit(mask, (x, y))  # 繪製遮罩
-        
+            
+        # 如果買不起，顯示灰色遮罩
+        if not is_enough_sun:
+            mask = pygame.Surface((CardSettings.CARD_WIDTH, CardSettings.CARD_HEIGHT))
+            mask.fill(Colors.BLACK)
+            mask.set_alpha(80)
+            surface.blit(mask, (x, y))
+            
         # 如果被選中，繪製選中框
         if self.is_selected:
             pygame.draw.rect(surface, (255, 255, 0), (x-2, y-2, CardSettings.CARD_WIDTH+4, CardSettings.CARD_HEIGHT+4), 2)

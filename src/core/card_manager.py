@@ -30,10 +30,10 @@ class CardManager:
     def handle_click(self, mouse_pos: tuple[int, int]) -> Optional[PlantType]:
         """處理點擊事件"""
         x, y = mouse_pos
-        card_y = 10  # 卡片起始y座標
+        card_y = CardSettings.CARD_START_Y
         
         for i, card in enumerate(self.cards):
-            card_x = 10 + i * CardSettings.CARD_WIDTH  # 卡片x座標
+            card_x = CardSettings.CARD_START_X + i * CardSettings.CARD_WIDTH  # 卡片x座標
             
             if (card_x <= x <= card_x + CardSettings.CARD_WIDTH and 
                 card_y <= y <= card_y + CardSettings.CARD_HEIGHT and 
@@ -69,7 +69,12 @@ class CardManager:
         for card in self.cards:
             card.update(current_time)
 
-    def draw(self, surface: pygame.Surface) -> None:
+    def draw(self, surface: pygame.Surface, current_sun: int) -> None:
         """繪製所有卡片"""
         for i, card in enumerate(self.cards):
-            card.draw(surface, (10 + i * 80, 10))
+            x = CardSettings.CARD_START_X + i * CardSettings.CARD_WIDTH
+            y = CardSettings.CARD_START_Y
+            if current_sun < card.info.cost:
+                card.draw(surface, (x, y), False)
+            else:
+                card.draw(surface, (x, y), True)

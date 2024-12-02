@@ -142,7 +142,7 @@ class Game:
         self.screen.fill(Colors.WHITE)
         self.grid.draw()
         self.plant_manager.draw(self.screen, self.grid.start_x, self.grid.start_y)
-        self.card_manager.draw(self.screen)
+        self.card_manager.draw(self.screen, self.sun_manager.sun_count)
         self.sun_manager.draw(self.screen)
         self.zombie_manager.draw(self.screen)
         for pea in self.projectiles:

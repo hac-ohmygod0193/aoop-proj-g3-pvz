@@ -19,6 +19,8 @@ class GridSettings:
 class CardSettings:
     CARD_WIDTH = 60
     CARD_HEIGHT = 70
+    CARD_START_X = 10
+    CARD_START_Y = 10
 
 class SunSettings:
     gameSettings = GameSettings()
