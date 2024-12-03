@@ -24,6 +24,7 @@ class PlantManager:
                 pygame.USEREVENT,
                 {'action': 'COST_SUN', 'amount': PLANT_STATS[plant_type].cost}
             ))
+            # print(self.plants)
             return True
         return False
 

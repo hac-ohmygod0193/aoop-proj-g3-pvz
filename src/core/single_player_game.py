@@ -48,32 +48,35 @@ class SinglePlayerGame(BaseGame):
     def _handle_events(self) -> None:
         """處理遊戲事件"""
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self._quit_game()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                self._handle_mouse_click(event.pos)
-            elif event.type == pygame.USEREVENT:
-                if event.action == 'PRODUCE_SUN':
-                    self.sun_manager.add_sun_from_sunflower(event.x, event.y)
-                elif event.action == 'COST_SUN':
-                    self.sun_manager.spend_sun(event.amount)
-                elif event.action == 'SHOOT_PEA':
-                    new_pea = Pea(
-                        x=event.dict['x'],
-                        y=event.dict['y'],
-                        row=event.dict['row'],
-                        damage=event.dict['damage']
-                    )
-                    self.projectiles.append(new_pea)
-                elif event.action == 'PLANT_DIED':
-                    self.plant_manager.remove_plant(event.dict['row'], event.dict['col'])
-                elif event.action == 'SHOW_DAMAGE':
-                    self.effect_manager.add_damage_indicator(
-                        event.dict['damage'], 
-                        event.dict['x'], 
-                        event.dict['y'],
-                        event.dict['is_plant_damage']
-                    )
+            self._process_event(event)
+
+    def _process_event(self, event: pygame.event.Event) -> None:
+        if event.type == pygame.QUIT:
+            self._quit_game()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            self._handle_mouse_click(event.pos)
+        elif event.type == pygame.USEREVENT:
+            if event.action == 'PRODUCE_SUN':
+                self.sun_manager.add_sun_from_sunflower(event.x, event.y)
+            elif event.action == 'COST_SUN':
+                self.sun_manager.spend_sun(event.amount)
+            elif event.action == 'SHOOT_PEA':
+                new_pea = Pea(
+                    x=event.dict['x'],
+                    y=event.dict['y'],
+                    row=event.dict['row'],
+                    damage=event.dict['damage']
+                )
+                self.projectiles.append(new_pea)
+            elif event.action == 'PLANT_DIED':
+                self.plant_manager.remove_plant(event.dict['row'], event.dict['col'])
+            elif event.action == 'SHOW_DAMAGE':
+                self.effect_manager.add_damage_indicator(
+                    event.dict['damage'], 
+                    event.dict['x'], 
+                    event.dict['y'],
+                    event.dict['is_plant_damage']
+                )
 
     def _handle_mouse_click(self, pos: tuple[int, int]) -> None:
         """處理滑鼠點擊事件"""

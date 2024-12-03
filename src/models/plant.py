@@ -51,6 +51,7 @@ class Plant:
         if current_time - self.last_attack_time >= self.stats.attack_speed * 1000:
             self.attack()
             self.last_attack_time = current_time
+        # print(f"Plant at ({self.row}, {self.col}) is updating")
 
     def attack(self) -> None:
         """植物攻擊"""

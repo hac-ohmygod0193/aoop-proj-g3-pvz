@@ -22,26 +22,27 @@ class MultiPlayerGame(SinglePlayerGame):
         self.brain_manager = BrainManager()
         self.grid = MultiplayerGrid(self.screen)  # 使用多人模式網格
 
-    def _handle_events(self) -> None:
+    def _process_event(self, event: pygame.event.Event) -> None:
         """處理遊戲事件"""
         # 處理鍵盤輸入
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self._quit_game()
-                
-            # 處理鍵盤事件
-            if event.type == pygame.KEYDOWN:
-                self.grid.handle_keyboard_event(event)
-                # 處理殭屍放置
-                if event.key == pygame.K_1:
-                    self.selected_zombie_type = ZombieType.NORMAL
-                elif event.key == pygame.K_2:
-                    self.selected_zombie_type = ZombieType.CONE_HEAD
-                elif event.key == pygame.K_3:
-                    self.selected_zombie_type = Tombstone
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                super()._handle_mouse_click(event.pos)
+        super()._process_event(event)
+
+        if event.type == pygame.QUIT:
+            self._quit_game()
             
+        # 處理鍵盤事件
+        if event.type == pygame.KEYDOWN:
+            self.grid.handle_keyboard_event(event)
+            # 處理殭屍放置
+            if event.key == pygame.K_1:
+                self.selected_zombie_type = ZombieType.NORMAL
+            elif event.key == pygame.K_2:
+                self.selected_zombie_type = ZombieType.CONE_HEAD
+            elif event.key == pygame.K_3:
+                self.selected_zombie_type = Tombstone
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            super()._handle_mouse_click(event.pos)
+        
         if self.selected_zombie_type:
             row, col = self.grid.get_selected_cell()
             if self.grid.is_in_zombie_zone(col):
@@ -59,11 +60,11 @@ class MultiPlayerGame(SinglePlayerGame):
         self.plant_manager.draw(self.screen, self.grid.start_x, self.grid.start_y)
         self.card_manager.draw(self.screen, self.sun_manager.sun_count)
         self.sun_manager.draw(self.screen)
+        self.zombie_manager.draw(self.screen)
         for pea in self.projectiles:
             pea.draw(self.screen)
         self.effect_manager.draw(self.screen)
         self.brain_manager.draw(self.screen)
-        self.zombie_manager.draw(self.screen)
         pygame.display.flip()
 
     def _check_game_over(self) -> bool:
