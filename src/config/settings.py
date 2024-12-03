@@ -22,6 +22,27 @@ class CardSettings:
     CARD_START_X = 10
     CARD_START_Y = 10
 
+class ZombieCardSettings:
+    CARD_WIDTH = 60
+    CARD_HEIGHT = 70
+    START_X = 600  # 卡片起始X座標
+    START_Y = 20   # 卡片起始Y座標
+    SPACING = 70   # 卡片間距
+    
+    # 殭屍花費
+    COSTS = {
+        'NORMAL': 50,
+        'CONE_HEAD': 75,
+        'TOMBSTONE': 100
+    }
+    
+    # 殭屍冷卻時間（毫秒）
+    COOLDOWNS = {
+        'NORMAL': 5000,    # 5秒
+        'CONE_HEAD': 7000, # 7秒
+        'TOMBSTONE': 10000 # 10秒
+    }
+
 class SunSettings:
     gameSettings = GameSettings()
     SUN_WIDTH = 40

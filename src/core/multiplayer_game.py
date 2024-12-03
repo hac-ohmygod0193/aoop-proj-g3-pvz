@@ -9,6 +9,7 @@ from core.multiplayer_zombie_manager import MultiplayerZombieManager
 from core.tombstone_manager import TombstoneManager
 from config.settings import Colors
 from ui.game_over import GameOverScreen
+from core.zombie_card_manager import ZombieCardManager
 
 class MultiPlayerGame(SinglePlayerGame):
     def __init__(self):
@@ -20,6 +21,7 @@ class MultiPlayerGame(SinglePlayerGame):
         super()._setup_game_objects()
         self.zombie_manager = MultiplayerZombieManager()
         self.brain_manager = BrainManager()
+        self.zombie_card_manager = ZombieCardManager()
         self.grid = MultiplayerGrid(self.screen)  # 使用多人模式網格
 
     def _process_event(self, event: pygame.event.Event) -> None:
@@ -40,8 +42,17 @@ class MultiPlayerGame(SinglePlayerGame):
                 self.selected_zombie_type = ZombieType.CONE_HEAD
             elif event.key == pygame.K_3:
                 self.selected_zombie_type = Tombstone
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            super()._handle_mouse_click(event.pos)
+                
+            card = self.zombie_card_manager.handle_key(event.key)
+            if card and self.brain_manager.can_afford(card.cost):
+                row, col = self.grid.get_selected_cell()
+                if self.grid.is_in_zombie_zone(col):
+                    self.brain_manager.spend_brain(card.cost)
+                    self.zombie_manager.spawn_zombie(card.zombie_type, row)
+                    card.use(pygame.time.get_ticks())
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                super()._handle_mouse_click(event.pos)
         
         if self.selected_zombie_type:
             row, col = self.grid.get_selected_cell()
@@ -65,6 +76,7 @@ class MultiPlayerGame(SinglePlayerGame):
             pea.draw(self.screen)
         self.effect_manager.draw(self.screen)
         self.brain_manager.draw(self.screen)
+        self.zombie_card_manager.draw(self.screen, self.brain_manager.brain_count)
         pygame.display.flip()
 
     def _check_game_over(self) -> bool:
