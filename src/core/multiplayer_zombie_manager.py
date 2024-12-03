@@ -17,10 +17,10 @@ class MultiplayerZombieManager(ZombieManager):
         self.zombies_spawned = 0
         self.wave_complete = False
 
-    def spawn_zombie(self, zombie_type: ZombieType, row: int) -> None:
+    def spawn_zombie(self, zombie_type: ZombieType, row: int, col: int) -> None:
         """在指定行放置殭屍（覆蓋父類方法）"""
         zombie = Zombie(row, zombie_type)
-        zombie.x = GridSettings.GRID_START_X + (GridSettings.COLS - 1) * GridSettings.CELL_WIDTH
+        zombie.x = GridSettings.GRID_START_X + col * GridSettings.CELL_WIDTH
         self.zombies.append(zombie)
 
     def update(self, current_time: int) -> None:

@@ -48,7 +48,7 @@ class MultiPlayerGame(SinglePlayerGame):
                 row, col = self.grid.get_selected_cell()
                 if self.grid.is_in_zombie_zone(col):
                     self.brain_manager.spend_brain(card.cost)
-                    self.zombie_manager.spawn_zombie(card.zombie_type, row)
+                    self.zombie_manager.spawn_zombie(card.zombie_type, row, col)
                     card.use(pygame.time.get_ticks())
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
