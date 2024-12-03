@@ -24,6 +24,12 @@ class CardManager:
                 cost=100,
                 cooldown=7.5,
                 image_path="peashooter.png"
+            )),
+            PlantCard(CardInfo(
+                plant_type=PlantType.WALLNUT,
+                cost=75,
+                cooldown=7.5,
+                image_path="wallnut.png"
             ))
         ]
 

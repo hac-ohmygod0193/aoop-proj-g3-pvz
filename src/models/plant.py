@@ -134,3 +134,21 @@ class Peashooter(Plant):
             }
         ))
 
+class Wallnut(Plant):
+    """堅果牆類"""
+    def __init__(self, row: int, col: int):
+        super().__init__(row, col, PlantType.WALLNUT)
+
+    def _load_image(self) -> None:
+        """加載植物圖片"""
+        self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
+        self.image.fill(Colors.WALLNUT_COLOR)
+
+    def update(self, current_time: int) -> None:
+        """更新堅果牆狀態"""
+        # 堅果牆無特殊行為，只需要更新父類的行為即可
+        super().update(current_time)
+
+    def attack(self) -> None:
+        """堅果牆無攻擊行為"""
+        pass

@@ -1,7 +1,7 @@
 """植物管理器"""
 from typing import Dict, Tuple
 import pygame
-from models.plant import Plant, Sunflower, Peashooter, PlantType, PLANT_STATS
+from models.plant import Plant, Sunflower, Peashooter, Wallnut, PlantType, PLANT_STATS
 
 class PlantManager:
     def __init__(self):
@@ -14,6 +14,8 @@ class PlantManager:
                 plant = Sunflower(row, col)
             elif plant_type == PlantType.PEASHOOTER:
                 plant = Peashooter(row, col)
+            elif plant_type == PlantType.WALLNUT:
+                plant = Wallnut(row, col)
             else:
                 return False
 
