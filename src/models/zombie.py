@@ -81,6 +81,11 @@ class Zombie:
         if not self.is_eating and not self.is_dead:
             self.x -= self.stats.speed
 
+    @property
+    def col(self) -> int:
+        """根据僵尸的 x 坐标计算所在的列"""
+        return (self.x - GridSettings.GRID_START_X) // GridSettings.CELL_WIDTH
+
     def take_damage(self, damage: int) -> None:
         """受到傷害"""
         self.health -= damage

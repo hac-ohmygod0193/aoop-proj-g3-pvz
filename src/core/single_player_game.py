@@ -125,7 +125,7 @@ class SinglePlayerGame(BaseGame):
     def _update(self) -> None:
         """更新遊戲狀態"""
         current_time = pygame.time.get_ticks()
-        self.plant_manager.update(current_time)
+        self.plant_manager.update(current_time, self.zombie_manager.zombies)
         self.card_manager.update(current_time)
         self.sun_manager.update(current_time)
         self.zombie_manager.update(current_time)

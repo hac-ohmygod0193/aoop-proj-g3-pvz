@@ -9,6 +9,7 @@ class PlantType(Enum):
     SUNFLOWER = auto()
     PEASHOOTER = auto()
     WALLNUT = auto()
+    SQUASH = auto()
 
 @dataclass
 class PlantStats:
@@ -23,6 +24,7 @@ PLANT_STATS = {
     PlantType.SUNFLOWER: PlantStats(health=100, cost=50, attack=0, attack_speed=24.0),
     PlantType.PEASHOOTER: PlantStats(health=100, cost=100, attack=20, attack_speed=1.5),
     PlantType.WALLNUT: PlantStats(health=400, cost=50, attack=0, attack_speed=0),
+    PlantType.SQUASH: PlantStats(health=100, cost=75, attack=0, attack_speed=0),
 }
 
 class Plant:
@@ -51,7 +53,7 @@ class Plant:
         if current_time - self.last_attack_time >= self.stats.attack_speed * 1000:
             self.attack()
             self.last_attack_time = current_time
-        # print(f"Plant at ({self.row}, {self.col}) is updating")
+        #print(f"Plant at ({self.row}, {self.col}) is updating")
 
     def attack(self) -> None:
         """植物攻擊"""
@@ -146,9 +148,85 @@ class Wallnut(Plant):
 
     def update(self, current_time: int) -> None:
         """更新堅果牆狀態"""
-        # 堅果牆無特殊行為，只需要更新父類的行為即可
         super().update(current_time)
 
     def attack(self) -> None:
         """堅果牆無攻擊行為"""
         pass
+
+class Squash(Plant):
+    def __init__(self, row: int, col: int):
+        super().__init__(row, col, PlantType.SQUASH)
+        self.target_zombie = None  # 当前目标僵尸
+        self.moving = False  # 是否正在移动
+        self.waiting_to_disappear = False  # 是否等待消失
+        self.move_duration = 2000  # 向前移动的时间（单位：毫秒）
+        self.move_start_time = 0  # 移动开始的时间
+        self.disappear_start_time = 0  # 开始消失的时间
+
+
+    def _load_image(self) -> None:
+        """加载植物图片"""
+        self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
+        self.image.fill(Colors.SQUASH_COLOR)
+
+    def update(self, current_time: int, zombies: list) -> None:
+        """更新窩瓜状态"""
+        if self.waiting_to_disappear:
+            # 检查是否到达消失时间
+            if current_time - self.disappear_start_time >= 1000:  # 等待1秒
+                print("窩瓜消失")
+                self.health = 0
+                self.take_damage(self.health)  # 移除窩瓜
+                self.waiting_to_disappear = False
+        elif not self.moving:
+            self.check_for_zombies(zombies)
+        elif self.moving:
+            elapsed_time = current_time - self.move_start_time
+            self.move_forward(elapsed_time)
+            
+    def check_for_zombies(self, zombies: list) -> None:
+        """检测是否有僵尸接触"""
+        for zombie in zombies:
+            if zombie.row == self.row and abs(zombie.col - self.col) <= 1:  # 判断接触
+                self.start_move(zombie)
+                break
+
+    def start_move(self, zombie) -> None:
+        """开始向前移动并攻击目标僵尸"""
+        self.moving = True
+        self.move_start_time = pygame.time.get_ticks()
+        self.target_zombie = zombie
+        self.move_distance = 0 # 重置已移动的距离
+        pygame.event.post(pygame.event.Event(
+            pygame.USEREVENT,
+            {'action': 'SQUASH_MOVE', 'row': self.row, 'col': self.col}
+        ))
+
+    def move_forward(self, elapsed_time: int) -> None:
+        """窩瓜向前移動，基於經過的時間計算距離"""
+        self.col += 1  # 模擬窩瓜前進一格
+        self._load_image()  # 刷新植物的圖像
+
+        # 檢查是否已經到達目標僵屍位置
+        if self.target_zombie and abs(self.col - self.target_zombie.col) <= 1:
+            # 直接擊殺目標僵屍
+            self.target_zombie.take_damage(self.target_zombie.health)
+            pygame.event.post(pygame.event.Event(
+                pygame.USEREVENT,
+                {'action': 'ZOMBIE_KILLED', 'zombie_id': id(self.target_zombie)}
+            ))
+            self.target_zombie = None  # 清空目標僵屍
+            self.disappear_start_time = pygame.time.get_ticks()
+            self.finish_move()
+        
+
+    def finish_move(self) -> None:
+        """完成移动并进入等待消失状态"""
+        self.moving = False
+        self.waiting_to_disappear = True
+        self.disappear_start_time = pygame.time.get_ticks()  # 记录消失开始时间
+
+
+        
+

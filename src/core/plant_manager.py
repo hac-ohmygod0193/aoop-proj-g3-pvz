@@ -1,7 +1,7 @@
 """植物管理器"""
 from typing import Dict, Tuple
 import pygame
-from models.plant import Plant, Sunflower, Peashooter, Wallnut, PlantType, PLANT_STATS
+from models.plant import Plant, Sunflower, Peashooter, Wallnut, Squash, PlantType, PLANT_STATS
 
 class PlantManager:
     def __init__(self):
@@ -16,6 +16,8 @@ class PlantManager:
                 plant = Peashooter(row, col)
             elif plant_type == PlantType.WALLNUT:
                 plant = Wallnut(row, col)
+            elif plant_type == PlantType.SQUASH:
+                plant = Squash(row, col)
             else:
                 return False
 
@@ -34,17 +36,24 @@ class PlantManager:
         """檢查是否可以放置植物"""
         return (row, col) not in self.plants
 
-    def update(self, current_time: int) -> None:
+    def update(self, current_time: int, zombies: list) -> None:
         """更新所有植物"""
-        for plant in self.plants.values():
-            plant.update(current_time)
+        for plant in list(self.plants.values()):
+            if plant is not None:
+                if isinstance(plant, Squash):
+                    plant.update(current_time, zombies)
+                else:
+                    plant.update(current_time)
 
     def draw(self, surface: pygame.Surface, grid_start_x: int, grid_start_y: int) -> None:
         """繪製所有植物"""
+        #print(self.plants)
         for plant in self.plants.values():
             plant.draw(surface, grid_start_x, grid_start_y)
         
     def remove_plant(self, row: int, col: int) -> None:
         """移除植物"""
+        col -= 1
+        print(row, col)
         if (row, col) in self.plants:
             del self.plants[(row, col)]

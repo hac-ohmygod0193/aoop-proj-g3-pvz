@@ -30,6 +30,12 @@ class CardManager:
                 cost=75,
                 cooldown=7.5,
                 image_path="wallnut.png"
+            )),
+            PlantCard(CardInfo(
+                plant_type=PlantType.SQUASH,
+                cost=75,
+                cooldown=15,
+                image_path="squash.png"
             ))
         ]
 
