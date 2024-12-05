@@ -54,6 +54,5 @@ class PlantManager:
     def remove_plant(self, row: int, col: int) -> None:
         """移除植物"""
         col -= 1
-        print(row, col)
         if (row, col) in self.plants:
             del self.plants[(row, col)]

@@ -175,7 +175,6 @@ class Squash(Plant):
         if self.waiting_to_disappear:
             # 检查是否到达消失时间
             if current_time - self.disappear_start_time >= 1000:  # 等待1秒
-                print("窩瓜消失")
                 self.health = 0
                 self.take_damage(self.health)  # 移除窩瓜
                 self.waiting_to_disappear = False
