@@ -185,9 +185,10 @@ class Squash(Plant):
             self.move_forward(elapsed_time)
             
     def check_for_zombies(self, zombies: list) -> None:
-        """检测是否有僵尸接触"""
+        """检测是否有符合条件的僵尸"""
         for zombie in zombies:
-            if zombie.row == self.row and abs(zombie.col - self.col) <= 1:  # 判断接触
+            # 仅当僵尸在窩瓜的同一行，并在同一格或前方一格时，触发移动
+            if zombie.row == self.row and zombie.col in {self.col, self.col + 1}:
                 self.start_move(zombie)
                 break
 

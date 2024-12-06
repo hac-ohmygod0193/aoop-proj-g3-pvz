@@ -27,10 +27,16 @@ class ZombieCard:
         """繪製卡片"""
         current_time = pygame.time.get_ticks()
         
-        # 繪製卡片背景
-        color = Colors.GRAY if not self.is_ready(current_time) else Colors.WHITE
+        # 決定卡片背景顏色
+        if brain_count < self.cost:
+            color = Colors.GRAY  # 花費不足，顯示灰色
+        else:
+            color = Colors.WHITE  # 花費充足，顯示白色
+
         if self.is_selected:
-            color = Colors.YELLOW
+            color = Colors.YELLOW  # 被選中時顯示黃色
+
+        # 繪製卡片背景
         pygame.draw.rect(surface, color, (self.x, self.y, self.width, self.height))
         
         # 繪製邊框
@@ -52,10 +58,13 @@ class ZombieCard:
         
         # 如果在冷卻中，繪製冷卻遮罩
         if not self.is_ready(current_time):
-            cooldown_height = int(self.height * 
-                                ((self.cooldown - (current_time - self.last_used)) / self.cooldown))
+            elapsed_time = current_time - self.last_used
+            cooldown_ratio = max(0, (self.cooldown - elapsed_time) / self.cooldown)
+            cooldown_height = int(self.height * cooldown_ratio)
+            
             if cooldown_height > 0:
                 mask = pygame.Surface((self.width, cooldown_height))
                 mask.fill(Colors.GRAY)
-                mask.set_alpha(128)
+                mask.set_alpha(128)  # 半透明效果
+                # 遮罩從底部往上減少
                 surface.blit(mask, (self.x, self.y))
