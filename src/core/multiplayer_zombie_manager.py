@@ -44,7 +44,7 @@ class MultiplayerZombieManager(ZombieManager):
         y = 150  # 從上方開始
 
         # 繪製旗幟圖示
-        flag_rect = pygame.Rect(x - 5, y - 40, 40, 30)
+        flag_rect = pygame.Rect(x - 5, y - 40, 30, 30)
         pygame.draw.rect(surface, Colors.RED, flag_rect)
         
         # 繪製背景條（紅色）
@@ -54,7 +54,7 @@ class MultiplayerZombieManager(ZombieManager):
         current_height = int(bar_height * (self.flag_health / self.max_flag_health))
         if current_height > 0:
             # 繪製當前生命值條（綠色）
-            pygame.draw.rect(surface, Colors.GREEN, (x, y, bar_width, current_height))
+            pygame.draw.rect(surface, Colors.GREEN, (x, y + (bar_height-current_height), bar_width, current_height))
 
         # 繪製邊框
         border_rect = pygame.Rect(x, y, bar_width, bar_height)

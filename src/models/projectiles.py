@@ -1,6 +1,6 @@
 """子彈模型"""
 import pygame
-from config.settings import GameSettings
+from config.settings import GameSettings, GridSettings
 
 class Pea:
     """豌豆子彈類"""
@@ -16,6 +16,15 @@ class Pea:
     def update(self) -> None:
         """更新豌豆位置"""
         self.x += self.speed
+        if self.x > GridSettings.GRID_START_X + GridSettings.COLS * GridSettings.CELL_WIDTH:
+            pygame.event.post(pygame.event.Event(
+                pygame.USEREVENT,
+                {
+                    'action': 'HIT_FLAG',
+                    'damage': self.damage,
+                }
+            ))
+        
         # 如果豌豆超出螢幕範圍,將其設為非活動狀態
         if self.x > GameSettings.WINDOW_WIDTH:
             self.active = False

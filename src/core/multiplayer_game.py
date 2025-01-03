@@ -58,7 +58,11 @@ class MultiPlayerGame(SinglePlayerGame):
             row, col = self.grid.get_selected_cell()
             if self.grid.is_in_zombie_zone(col):
                 pass
-
+        
+        if event.type == pygame.USEREVENT:
+            if event.action == 'HIT_FLAG':
+                self.zombie_manager.take_flag_damage(event.damage)
+        
     def _update(self) -> None:
         """更新遊戲狀態"""
         super()._update()
