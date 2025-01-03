@@ -33,7 +33,8 @@ class ZombieCardManager:
         key_to_index = {
             pygame.K_1: 0,
             pygame.K_2: 1,
-            pygame.K_3: 2
+            pygame.K_3: 2,
+            pygame.K_4: 3
         }
         
         if key in key_to_index:

@@ -40,7 +40,9 @@ class MultiPlayerGame(SinglePlayerGame):
             elif event.key == pygame.K_2:
                 self.selected_zombie_type = ZombieType.CONE_HEAD
             elif event.key == pygame.K_3:
-                self.selected_zombie_type = Tombstone
+                self.selected_zombie_type = ZombieType.BUCKET_HEAD
+            elif event.key == pygame.K_4:
+                self.selected_zombie_type = ZombieType.TOMBSTONE
                 
             card = self.zombie_card_manager.handle_key(event.key)
             if card and self.brain_manager.can_afford(card.cost):

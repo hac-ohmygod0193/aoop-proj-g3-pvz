@@ -44,7 +44,6 @@ class Plant:
 
     def _load_image(self) -> None:
         """加載植物圖片"""
-        # TODO: 替換為實際的圖片加載
         self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
         self.image.fill(Colors.PLANT_COLOR)
 
@@ -98,12 +97,18 @@ class Sunflower(Plant):
                 {'action': 'PRODUCE_SUN', 'x': x, 'y': y}
             ))
             self.last_attack_time = current_time
-
-    def _load_image(self) -> None:
-        """加載植物圖片"""
-        self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
-        self.image.fill(Colors.SUNFLOWER_COLOR)
-
+    def _load_image(self):
+        try:
+            loaded_image = pygame.image.load('src\\images\\sunflower.png')
+            # 調整圖片大小
+            self.image = pygame.transform.scale(
+                loaded_image,
+                (GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10)
+            )
+        except pygame.error as e:
+            self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
+            self.image.fill(Colors.SUNFLOWER_COLOR)
+        
 class Peashooter(Plant):
     """豌豆射手類"""
     def __init__(self, row: int, col: int):
@@ -135,6 +140,17 @@ class Peashooter(Plant):
                 'y': y
             }
         ))
+    def _load_image(self):
+        try:
+            loaded_image = pygame.image.load('src\\images\\peashooter.png')
+            # 調整圖片大小
+            self.image = pygame.transform.scale(
+                loaded_image,
+                (GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10)
+            )
+        except pygame.error as e:
+            self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
+            self.image.fill(Colors.PLANT_COLOR)
 
 class Wallnut(Plant):
     """堅果牆類"""
@@ -153,6 +169,17 @@ class Wallnut(Plant):
     def attack(self) -> None:
         """堅果牆無攻擊行為"""
         pass
+    def _load_image(self):
+        try:
+            loaded_image = pygame.image.load('src\\images\\wallnut.png')
+            # 調整圖片大小
+            self.image = pygame.transform.scale(
+                loaded_image,
+                (GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10)
+            )
+        except pygame.error as e:
+            self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
+            self.image.fill(Colors.WALLNUT_COLOR)
 
 class Squash(Plant):
     def __init__(self, row: int, col: int):
@@ -163,12 +190,6 @@ class Squash(Plant):
         self.move_duration = 2000  # 向前移动的时间（单位：毫秒）
         self.move_start_time = 0  # 移动开始的时间
         self.disappear_start_time = 0  # 开始消失的时间
-
-
-    def _load_image(self) -> None:
-        """加载植物图片"""
-        self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
-        self.image.fill(Colors.SQUASH_COLOR)
 
     def update(self, current_time: int, zombies: list) -> None:
         """更新窩瓜状态"""
@@ -220,12 +241,23 @@ class Squash(Plant):
             self.disappear_start_time = pygame.time.get_ticks()
             self.finish_move()
         
-
     def finish_move(self) -> None:
         """完成移动并进入等待消失状态"""
         self.moving = False
         self.waiting_to_disappear = True
         self.disappear_start_time = pygame.time.get_ticks()  # 记录消失开始时间
+    
+    def _load_image(self):
+        try:
+            loaded_image = pygame.image.load('src\\images\\squash.png')
+            # 調整圖片大小
+            self.image = pygame.transform.scale(
+                loaded_image,
+                (GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10)
+            )
+        except pygame.error as e:
+            self.image = pygame.Surface((GridSettings.CELL_WIDTH - 10, GridSettings.CELL_HEIGHT - 10))
+            self.image.fill(Colors.SQUASH_COLOR)
 
 
         
