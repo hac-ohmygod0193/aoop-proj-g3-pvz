@@ -43,17 +43,18 @@ class ZombieCard:
         pygame.draw.rect(surface, Colors.BLACK, (self.x, self.y, self.width, self.height), 2)
         
         # 繪製殭屍類型文字
-        font = pygame.font.Font(None, 20)
+        name_font = pygame.font.Font(None, 13)
         type_text = self.zombie_type.name
-        text = font.render(type_text, True, Colors.BLACK)
+        text = name_font.render(type_text, True, Colors.BLACK)
         text_x = self.x + (self.width - text.get_width()) // 2
         surface.blit(text, (text_x, self.y + 5))
         
         # 繪製花費
+        cost_font = pygame.font.Font(None, 24)
         cost_text = str(self.cost)
-        cost_surface = font.render(cost_text, True, 
-                                 Colors.RED if brain_count < self.cost else Colors.BLACK)
+        cost_surface = cost_font.render(cost_text, True, Colors.BLACK)
         cost_x = self.x + (self.width - cost_surface.get_width()) // 2
+        
         surface.blit(cost_surface, (cost_x, self.y + self.height - 20))
         
         # 如果在冷卻中，繪製冷卻遮罩

@@ -28,10 +28,20 @@ class PlantCard:
         # TODO: 替換為實際圖片
         self.image = pygame.Surface((CardSettings.CARD_WIDTH, CardSettings.CARD_HEIGHT))
         self.image.fill(Colors.CARD_COLOR)
+        # 名字文字
+        name_font = pygame.font.Font(None, 13)
+        type_text = self.info.plant_type.name
+        text = name_font.render(type_text, True, Colors.BLACK)
+        text_x = (CardSettings.CARD_WIDTH - text.get_width()) // 2
+        self.image.blit(text, (text_x, 5))
+        
         # 添加文字顯示費用
-        font = pygame.font.Font(None, 24)
-        cost_text = font.render(str(self.info.cost), True, Colors.BLACK)
-        self.image.blit(cost_text, (5, 5))
+        cost_font = pygame.font.Font(None, 24)
+        cost_text = cost_font.render(str(self.info.cost), True, Colors.BLACK)
+        cost_x = (CardSettings.CARD_WIDTH - cost_text.get_width()) // 2
+        cost_y = CardSettings.CARD_HEIGHT - 20
+        self.image.blit(cost_text, (cost_x, cost_y))
+        
 
     def update(self, current_time: int) -> None:
         """更新卡片狀態"""

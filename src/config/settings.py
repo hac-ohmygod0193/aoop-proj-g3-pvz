@@ -26,7 +26,7 @@ class ZombieCardSettings:
     CARD_WIDTH = 60
     CARD_HEIGHT = 70
     START_X = 600  # 卡片起始X座標
-    START_Y = 20   # 卡片起始Y座標
+    START_Y = 10   # 卡片起始Y座標
     SPACING = 70   # 卡片間距
     
     # 殭屍花費
