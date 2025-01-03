@@ -72,7 +72,7 @@ class ZombieManager:
             
             # 檢查這個格子是否有植物
             plant = plants.get((zombie.row, zombie_col))
-            
+            # print(f"Zombie at {zombie.row}, {zombie_col} is eating {plant}")
             if plant:
                 # 如果有植物，停下來攻擊
                 zombie.is_eating = True

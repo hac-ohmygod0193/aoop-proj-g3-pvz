@@ -66,7 +66,10 @@ class Plant:
         
     def take_damage(self, damage: int) -> None:
         """受到傷害"""
+        
         self.health -= damage
+        # print(f"Plant {self.type} took {damage} damage, current health: {self.health}")
+        # print(f"ROW:{self.row}, COL:{self.col}")
         if self.health <= 0:
             # 發出植物死亡事件
             pygame.event.post(pygame.event.Event(
