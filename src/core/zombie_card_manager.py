@@ -17,7 +17,8 @@ class ZombieCardManager:
         
         # 創建三種殭屍的卡片
         for i, zombie_type in enumerate([ZombieType.NORMAL, 
-                                       ZombieType.CONE_HEAD, 
+                                       ZombieType.CONE_HEAD,
+                                       ZombieType.BUCKET_HEAD,
                                        ZombieType.TOMBSTONE]):
             card = ZombieCard(zombie_type, 
                             x + i * (ZombieCardSettings.CARD_WIDTH), 

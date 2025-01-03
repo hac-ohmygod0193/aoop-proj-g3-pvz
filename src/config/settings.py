@@ -25,7 +25,7 @@ class CardSettings:
 class ZombieCardSettings:
     CARD_WIDTH = 60
     CARD_HEIGHT = 70
-    START_X = 600  # 卡片起始X座標
+    START_X = 550  # 卡片起始X座標
     START_Y = 10   # 卡片起始Y座標
     SPACING = 70   # 卡片間距
     
@@ -33,6 +33,7 @@ class ZombieCardSettings:
     COSTS = {
         'NORMAL': 50,
         'CONE_HEAD': 75,
+        'BUCKET_HEAD': 100,
         'TOMBSTONE': 100
     }
     
@@ -40,6 +41,7 @@ class ZombieCardSettings:
     COOLDOWNS = {
         'NORMAL': 5000,    # 5秒
         'CONE_HEAD': 7000, # 7秒
+        'BUCKET_HEAD': 10000, # 10秒
         'TOMBSTONE': 10000 # 10秒
     }
 

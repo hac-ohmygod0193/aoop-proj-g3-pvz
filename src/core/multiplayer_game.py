@@ -6,7 +6,6 @@ from core.brain_manager import BrainManager
 from models.zombie import ZombieType
 from models.tombstone import Tombstone
 from core.multiplayer_zombie_manager import MultiplayerZombieManager
-from core.tombstone_manager import TombstoneManager
 from config.settings import Colors
 from ui.game_over import GameOverScreen
 from core.zombie_card_manager import ZombieCardManager
