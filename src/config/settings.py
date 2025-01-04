@@ -81,7 +81,7 @@ class Colors:
 class BrainSettings:
     gameSettings = GameSettings()
     INITIAL_BRAIN = 50
-    BRAIN_GENERATE_INTERVAL = 5000  # 每10秒生成一次大腦
+    BRAIN_GENERATE_INTERVAL = 3500  # 每n秒生成一次大腦
     BRAIN_GENERATE_AMOUNT = 25
     BRAIN_ICON_X = gameSettings.WINDOW_WIDTH - 100
     BRAIN_ICON_Y = gameSettings.WINDOW_HEIGHT - 50
