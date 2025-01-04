@@ -3,7 +3,7 @@ class GameSettings:
     WINDOW_WIDTH = 800
     WINDOW_HEIGHT = 600
     FPS = 60
-    TITLE = "植物守衛戰"
+    TITLE = "PvZ Duel"
 
 class GridSettings:
     ROWS = 5

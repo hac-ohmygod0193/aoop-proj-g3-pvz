@@ -1,2 +1,1 @@
-pytest
-pytest-cov
+pygame==2.6.0
