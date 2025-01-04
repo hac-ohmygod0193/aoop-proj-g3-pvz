@@ -38,7 +38,6 @@ pip install -r requirements.txt
 ### Single Player Mode
 - Left Mouse Button: Select and place plants
 - Click on sunlight: Collect sun resources
-- ESC: Return to main menu
 
 ### Multiplayer Mode
 Plants:
