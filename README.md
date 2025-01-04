@@ -1,4 +1,6 @@
 # PvZ Duel
+![image](https://github.com/user-attachments/assets/6ee21bab-a3e9-498a-a521-bf08e2d59f3b)
+
 PvZ Duel is a two-player game where one controls plants, and the other leads zombies.
 Developed with Pygame, inspired by the classic "Plants vs. Zombies".
 
