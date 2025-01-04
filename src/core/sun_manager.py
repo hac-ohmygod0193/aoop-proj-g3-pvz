@@ -63,8 +63,8 @@ class SunManager:
         
         # 繪製陽光計數器
         sun_text = self.font.render(str(self.sun_count), True, Colors.BLACK)
-        sun_icon = pygame.Surface((30, 30))
-        sun_icon.fill(Colors.SUN_ICON)
+        loaded_image = pygame.image.load('src\\images\\sun.png')
+        sun_icon = pygame.transform.scale(loaded_image, (30, 30))
 
         # 計算左下角位置
         icon_x = SunSettings.SUN_ICON_X

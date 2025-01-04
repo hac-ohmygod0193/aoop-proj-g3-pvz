@@ -44,9 +44,12 @@ class MultiplayerZombieManager(ZombieManager):
         y = 150  # 從上方開始
 
         # 繪製旗幟圖示
-        flag_rect = pygame.Rect(x - 5, y - 40, 30, 30)
-        pygame.draw.rect(surface, Colors.RED, flag_rect)
         
+        # flag_rect = pygame.Rect(x - 5, y - 40, 30, 30)
+        # pygame.draw.rect(surface, Colors.RED, flag_rect)
+        loaded_image = pygame.image.load('src\\images\\flag.png')
+        flag_icon = pygame.transform.scale(loaded_image, (30, 30))
+        surface.blit(flag_icon, (x - 5, y - 40))
         # 繪製背景條（紅色）
         pygame.draw.rect(surface, Colors.RED, (x, y, bar_width, bar_height))
         

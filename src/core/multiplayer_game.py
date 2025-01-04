@@ -4,7 +4,6 @@ from core.single_player_game import SinglePlayerGame
 from core.multiplayer_grid import MultiplayerGrid
 from core.brain_manager import BrainManager
 from models.zombie import ZombieType
-from models.tombstone import Tombstone
 from core.multiplayer_zombie_manager import MultiplayerZombieManager
 from config.settings import Colors
 from ui.game_over import GameOverScreen

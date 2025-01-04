@@ -1,6 +1,4 @@
 # PvZ Duel
-![image](https://github.com/user-attachments/assets/6ee21bab-a3e9-498a-a521-bf08e2d59f3b)
-
 PvZ Duel is a two-player game where one controls plants, and the other leads zombies.
 Developed with Pygame, inspired by the classic "Plants vs. Zombies".
 
@@ -15,16 +13,16 @@ Developed with Pygame, inspired by the classic "Plants vs. Zombies".
 
 ## 🛠️ Requirements
 
-- Python 3.8+
-- Pygame 2.0+
+- Python 3.10+
+- Pygame 2.6.0
 
 ## 📥 Installation
 
 1. Clone the repository:
 ```
 bash
-git clone https://github.com/yourusername/plants-defense.git
-cd plants-defense
+git clone https://github.com/zachlian/aoop-proj-g3.git
+cd aoop-proj-g3
 ```
 
 2. Install dependencies:

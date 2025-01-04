@@ -17,10 +17,13 @@ class Sun:
 
     def _init_animation(self) -> None:
         """初始化陽光動畫"""
-        self.image = pygame.Surface((40, 40))
-        self.image.fill((255, 255, 0))  # 暫時用黃色圓形代替
-        pygame.draw.circle(self.image, (255, 200, 0), (20, 20), 20)
-        self.image.set_alpha(200)
+        # self.image = pygame.Surface((40, 40))
+        # self.image.fill((255, 255, 0))  # 暫時用黃色圓形代替
+        # pygame.draw.circle(self.image, (255, 200, 0), (20, 20), 20)
+        # self.image.set_alpha(200)
+        
+        loaded_image = pygame.image.load('src\\images\\sun.png')
+        self.image = pygame.transform.scale(loaded_image, (40, 40))
         
         # 掉落速度
         self.fall_speed = SunSettings.SUN_FALL_SPEED

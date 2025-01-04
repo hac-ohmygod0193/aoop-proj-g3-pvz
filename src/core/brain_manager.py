@@ -28,9 +28,8 @@ class BrainManager:
     def draw(self, surface: pygame.Surface) -> None:
         """繪製大腦計數器"""
         brain_text = self.font.render(str(self.brain_count), True, Colors.BLACK)
-        
-        brain_icon = pygame.Surface((30, 30))
-        brain_icon.fill(Colors.BRAIN_ICON)
+        loaded_image = pygame.image.load('src\\images\\brain.png')
+        brain_icon = pygame.transform.scale(loaded_image, (30, 30))
 
         # 計算左下角位置
         icon_x = BrainSettings.BRAIN_ICON_X
