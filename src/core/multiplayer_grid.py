@@ -52,13 +52,13 @@ class MultiplayerGrid(Grid):
         if event.type == pygame.KEYDOWN:
             row, col = self.selected_cell
             
-            if event.key == pygame.K_w and row > 0:
+            if (event.key == pygame.K_w or event.key == pygame.K_UP) and row > 0:
                 row -= 1
-            elif event.key == pygame.K_s and row < GridSettings.ROWS - 1:
+            elif (event.key == pygame.K_s or event.key == pygame.K_DOWN) and row < GridSettings.ROWS - 1:
                 row += 1
-            elif event.key == pygame.K_a and col > 6:
+            elif (event.key == pygame.K_a or event.key == pygame.K_LEFT) and col > 6:
                 col -= 1
-            elif event.key == pygame.K_d and col < GridSettings.COLS - 1:
+            elif (event.key == pygame.K_d or event.key == pygame.K_RIGHT) and col < GridSettings.COLS - 1:
                 col += 1
 
             self.selected_cell = (row, col)
