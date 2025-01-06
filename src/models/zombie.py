@@ -72,7 +72,7 @@ class Zombie:
     def _load_image(self) -> None:
         """加載殭屍圖片"""
         try:
-            path = f'src\\images\\{self.stats.name}.png'
+            path = f'./images/{self.stats.name}.png'
             loaded_image = pygame.image.load(path)
             # 調整圖片大小
             self.image = pygame.transform.scale(
