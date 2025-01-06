@@ -196,11 +196,18 @@ class Squash(Plant):
 
     def update(self, current_time: int, zombies: list) -> None:
         """更新窩瓜状态"""
+        super().update(current_time)
         if self.waiting_to_disappear:
             # 检查是否到达消失时间
             if current_time - self.disappear_start_time >= 1000:  # 等待1秒
-                self.health = 0
-                self.take_damage(self.health)  # 移除窩瓜
+                pygame.event.post(pygame.event.Event(
+                    pygame.USEREVENT,
+                    {
+                        'action': 'PLANT_DIED',
+                        'row': self.row,
+                        'col': self.col-1
+                    }
+                ))
                 self.waiting_to_disappear = False
         elif not self.moving:
             self.check_for_zombies(zombies)
