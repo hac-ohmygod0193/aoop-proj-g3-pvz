@@ -33,6 +33,12 @@ bash
 pip install -r requirements.txt
 ```
 
+3. Run the game:
+```
+bash
+cd src
+python src/main.py
+```
 ## 🎯 Controls
 
 ### Single Player Mode
