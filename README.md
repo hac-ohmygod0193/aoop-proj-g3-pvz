@@ -33,12 +33,17 @@ bash
 pip install -r requirements.txt
 ```
 
+3. Run the game:
+```
+bash
+cd src
+python src/main.py
+```
 ## 🎯 Controls
 
 ### Single Player Mode
 - Left Mouse Button: Select and place plants
 - Click on sunlight: Collect sun resources
-- ESC: Return to main menu
 
 ### Multiplayer Mode
 Plants:

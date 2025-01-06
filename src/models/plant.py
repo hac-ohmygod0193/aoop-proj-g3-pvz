@@ -102,7 +102,7 @@ class Sunflower(Plant):
             self.last_attack_time = current_time
     def _load_image(self):
         try:
-            loaded_image = pygame.image.load('src\\images\\sunflower.png')
+            loaded_image = pygame.image.load('./images/sunflower.png')
             # 調整圖片大小
             self.image = pygame.transform.scale(
                 loaded_image,
@@ -145,7 +145,7 @@ class Peashooter(Plant):
         ))
     def _load_image(self):
         try:
-            loaded_image = pygame.image.load('src\\images\\peashooter.png')
+            loaded_image = pygame.image.load('./images/peashooter.png')
             # 調整圖片大小
             self.image = pygame.transform.scale(
                 loaded_image,
@@ -174,7 +174,7 @@ class Wallnut(Plant):
         pass
     def _load_image(self):
         try:
-            loaded_image = pygame.image.load('src\\images\\wallnut.png')
+            loaded_image = pygame.image.load('./images/wallnut.png')
             # 調整圖片大小
             self.image = pygame.transform.scale(
                 loaded_image,
@@ -259,7 +259,7 @@ class Squash(Plant):
     
     def _load_image(self):
         try:
-            loaded_image = pygame.image.load('src\\images\\squash.png')
+            loaded_image = pygame.image.load('./images/squash.png')
             # 調整圖片大小
             self.image = pygame.transform.scale(
                 loaded_image,

@@ -22,7 +22,7 @@ class Sun:
         # pygame.draw.circle(self.image, (255, 200, 0), (20, 20), 20)
         # self.image.set_alpha(200)
         
-        loaded_image = pygame.image.load('src\\images\\sun.png')
+        loaded_image = pygame.image.load('./images/sun.png')
         self.image = pygame.transform.scale(loaded_image, (40, 40))
         
         # 掉落速度
