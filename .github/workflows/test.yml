@@ -30,7 +30,6 @@ jobs:
         pip install pygame
         
     - name: Run tests
-      if: contains(github.event.head_commit.message, 'run-test')
       run: |
         cd src
         pytest
