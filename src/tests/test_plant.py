@@ -1,7 +1,7 @@
 import pytest
 import pygame
-from src.models.plant import PlantType, Plant, Sunflower, Peashooter
-from src.core.plant_manager import PlantManager
+from models.plant import PlantType, Plant, Sunflower, Peashooter
+from core.plant_manager import PlantManager
 
 # 初始化 pygame，因為某些類需要它
 pygame.init()

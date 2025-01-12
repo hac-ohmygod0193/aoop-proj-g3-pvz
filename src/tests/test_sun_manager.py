@@ -1,6 +1,6 @@
 # tests/test_sun_manager.py
 import pytest
-from src.core.sun_manager import SunManager
+from core.sun_manager import SunManager
 
 class TestSunManager:
     @pytest.fixture
@@ -15,7 +15,7 @@ class TestSunManager:
         sun_manager.add_sun(25)
         assert sun_manager.sun_count == initial_sun + 25
 
-    def test_use_sun(self, sun_manager):
+    def test_spend_sun(self, sun_manager):
         initial_sun = sun_manager.sun_count
-        sun_manager.use_sun(25)
+        sun_manager.spend_sun(25)
         assert sun_manager.sun_count == initial_sun - 25

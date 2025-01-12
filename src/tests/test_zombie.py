@@ -1,15 +1,16 @@
 # tests/test_zombie.py
 import pytest
-from src.models.zombie import Zombie, ZombieType
+from models.zombie import Zombie, ZombieType
 
 class TestZombie:
     @pytest.fixture
     def basic_zombie(self):
-        return Zombie(0, 8, ZombieType.BASIC)
+        return Zombie(0, ZombieType.NORMAL)
 
     def test_zombie_movement(self, basic_zombie):
         initial_x = basic_zombie.x
-        basic_zombie.move()
+        current_time = 0
+        basic_zombie.update(current_time)
         assert basic_zombie.x < initial_x
 
     def test_zombie_take_damage(self, basic_zombie):
