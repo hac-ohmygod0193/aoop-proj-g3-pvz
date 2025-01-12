@@ -19,13 +19,11 @@ jobs:
       
     # Test
     - name: Set up Python
-      if: contains(github.event.head_commit.message, 'run-test')
       uses: actions/setup-python@v3
       with:
         python-version: '3.x'
     
     - name: Install dependencies
-      if: contains(github.event.head_commit.message, 'run-test')
       run: |
         python -m pip install --upgrade pip
         pip install pytest
