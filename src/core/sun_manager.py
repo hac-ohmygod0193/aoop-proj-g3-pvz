@@ -44,7 +44,7 @@ class SunManager:
         for sun in self.suns:
             if sun.is_clicked(pos):
                 sun.collect()
-                add_sun(sun.value)
+                self.add_sun(sun.value)
     def can_afford(self, amount: int) -> bool:
         """檢查是否有足夠的陽光"""
         return self.sun_count >= amount
